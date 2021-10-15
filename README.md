@@ -1,7 +1,8 @@
-# software_dash
+# Django React Application
 Software Engineering Project Backend and Frontend files.
 
 DJANGO BACK-END TARAFINI AYAĞA KALDIRMAK İÇİN (FIRST START)
+
 cd backendapi
 virtualenv env
 source env/bin/activate
