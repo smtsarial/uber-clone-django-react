@@ -10,6 +10,9 @@ Django, and the Django Rest Framework on the backend, and React on the frontend.
 1. Python 3.5 or greater
 2. Django 3.1
 3. React 17.0
+4. react-dotenv
+5. redux
+
 
 ## Installation
 
@@ -19,14 +22,10 @@ cloning the repository to get it up and running.
 1. Run the following commands in the same directory as `manage.py`:  
    `pipenv install` and `pipenv install --dev`
 
-2. Next create a `local_settings.py` file inside of the `mysite` directory.
-   create 3 variables inside of it:
-
-- secret_key - this is equal to a string
-- debug - this is a boolean value (True, or False)
-- allowed_hosts - this is an array
-
-Note that `local_settings.py` is in the gitignore.
-
-3. Now run the django migrations. In the same directory as `manage.py` run:  
+2. Now run the django migrations. In the same directory as `manage.py` run:  
    `python manage.py migrate`
+  
+3. After that go to the client side cd client -> npm install -> npm run start
+4. NOTE !! npx kill-port 3000 port kullanımdaysa öldürecektir 
+5. NOTE !! Client side 3000 Backend kısmı 8000'de çalışmak zorundadır !!!
+6. django admin panel için createsuperuser kullanılabilir!!
