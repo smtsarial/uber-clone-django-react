@@ -8,7 +8,7 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem('token') !== null) {
-      window.location.replace('http://localhost:3000/dashboard');
+      window.location.replace(process.env.FRONTEND_URL+'/dashboard');
     } else {
       setLoading(false);
     }
@@ -22,7 +22,7 @@ const Login = () => {
       password: password
     };
 
-    fetch('http://127.0.0.1:8000/api/v1/users/auth/login/', {
+    fetch(process.env.BACKEND_URL+'/api/v1/users/auth/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ const Login = () => {
         if (data.key) {
           localStorage.clear();
           localStorage.setItem('token', data.key);
-          window.location.replace('http://localhost:3000/dashboard');
+          window.location.replace(process.env.FRONTEND_URL+'/dashboard');
         } else {
           setEmail('');
           setPassword('');

@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <nav id="navbar_campus_driver">
-      <h1>Django React Auth</h1>
+      <h1 style={{paddingLeft:'20px'}}>Campus Driver</h1>
       <ul id="navbar_routes">
         {isAuth === true ? (
           <Fragment>
