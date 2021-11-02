@@ -53,10 +53,8 @@ const Signup = () => {
   const changeUsageStatus = (event) => {
     if (event.target.value === "traveller"){
       setIs_driver(false);
-      console.log("False");
     }else{
       setIs_driver(true);
-      console.log("true");
     }
   };
 

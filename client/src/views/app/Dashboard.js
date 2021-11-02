@@ -1,7 +1,7 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
+import Loading from "./Loading";
 
 const Dashboard = () => {
-  const [userEmail, setUserEmail] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,23 +17,17 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
-          setUserEmail(data.email);
+          if (data.isDriver === true) {
+            window.location.replace(window.env.FRONTEND_URL + "/driver");
+          } else {
+            window.location.replace(window.env.FRONTEND_URL + "/traveller");
+          }
           setLoading(false);
         });
     }
   }, []);
 
-  return (
-    <div id="dashboard">
-      {loading === false && (
-        <Fragment>
-          <h1>Dashboard</h1>
-          <h2>Hello {userEmail}!</h2>
-        </Fragment>
-      )}
-    </div>
-  );
+  return <div id="dash">{loading === true && <Loading></Loading>}</div>;
 };
 
 export default Dashboard;

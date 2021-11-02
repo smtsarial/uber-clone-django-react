@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Loading from "../app/Loading"
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -8,7 +9,7 @@ const Login = () => {
 
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
-      window.location.replace(window.env.FRONTEND_URL + "/dashboard");
+      window.location.replace(window.env.FRONTEND_URL + "/");
     } else {
       setLoading(false);
     }
@@ -46,6 +47,7 @@ const Login = () => {
 
   return (
     <div id="login">
+      {loading === true && <Loading></Loading>}
       {loading === false && <h1>Login</h1>}
       {errors === true && <h2>Cannot log in with provided credentials</h2>}
       {loading === false && (
