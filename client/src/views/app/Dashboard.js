@@ -29,7 +29,7 @@ const Dashboard = () => {
     <div id="dashboard">
       {loading === false && (
         <Fragment>
-          <h1 style={{paddingLeft:'20px'}}className='primary'>Dashboard1</h1>
+          <h1 style={{paddingLeft:'20px'}}className='primary'>Dashboard sena</h1>
           <h2 style={{paddingLeft:'20px'}}className='primary'>Hello {userEmail}!</h2>
         </Fragment>
       )}
