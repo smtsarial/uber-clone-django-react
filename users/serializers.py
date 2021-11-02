@@ -8,7 +8,8 @@ from rest_auth.registration.serializers import RegisterSerializer
 class UserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('email', 'last_login', 'date_joined', 'is_staff','is_driver')
+        fields = ['email','last_login', 'date_joined', 'is_staff','is_driver', 'is_driver']
+
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -21,3 +22,13 @@ class CustomRegisterSerializer(RegisterSerializer):
         user.is_driver = self.data.get('is_driver')
         user.save()
         return user
+
+
+class UserDetailsSerializer(ModelSerializer):
+    """
+    User model w/o password
+    """
+    class Meta:
+        model = CustomUser
+        fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name')
+        read_only_fields = ('email', )

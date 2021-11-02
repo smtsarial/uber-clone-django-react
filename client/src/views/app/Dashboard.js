@@ -1,22 +1,23 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from "react";
 
 const Dashboard = () => {
-  const [userEmail, setUserEmail] = useState('');
+  const [userEmail, setUserEmail] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (localStorage.getItem('token') === null) {
-      window.location.replace(window.env.FRONTEND_URL+'/login');
+    if (localStorage.getItem("token") === null) {
+      window.location.replace(window.env.FRONTEND_URL + "/login");
     } else {
-      fetch(window.env.BACKEND_URL+'/api/v1/users/auth/user/', {
-        method: 'GET',
+      fetch(window.env.BACKEND_URL + "/api/v1/users/auth/user/", {
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Token ${localStorage.getItem('token')}`
-        }
+          "Content-Type": "application/json",
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        },
       })
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
           setUserEmail(data.email);
           setLoading(false);
         });
