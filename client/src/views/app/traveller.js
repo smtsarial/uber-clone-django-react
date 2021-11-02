@@ -1,4 +1,4 @@
-import React, { Component, useRef } from "react";
+import React, { Component } from "react";
 import Leaflet from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -22,35 +22,46 @@ export default class Traveller extends Component {
     this.state = {map:null,lat: 40.0550272, lng: 29.0848768 };
 
   }
-  mapRef = React.createRef();
   
-  changePos (pos) {
-    this.setState({position: pos});
-    this.mapRef.current.flyTo(pos);
-  }
-
   componentDidMount() {
+    if (localStorage.getItem("token") === null) {
+      window.location.replace(window.env.FRONTEND_URL + "/login");
+    } else {
+      fetch(window.env.BACKEND_URL + "/api/v1/users/auth/user/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Traveller Başarılı giriş");
+        });
+    }
     // Get location of user
     const success = (position) => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
+      if(this.state.map !== null ){
+        this.state.map.flyTo(
+          [latitude, longitude],
+          "13",
+          { animate: true }
+        );
+      }else{
+        console.log("map referance alınamadı")
+      }
       /*console.log(latitude, longitude);*/
-      this.state.map.flyTo(
-        [latitude, longitude],
-        "13",
-        { animate: true }
-      );
       this.setState({
         lat: latitude,
         lng: longitude,
       });
       
     };
-
     const error = () => {
       console.log("Unable to retrieve your location");
     };
-
     navigator.geolocation.getCurrentPosition(success, error);
   }
 
@@ -61,7 +72,7 @@ export default class Traveller extends Component {
           center={[this.state.lat,this.state.lng]}
           zoom="12"
           style={{ height: "92vh" }}
-          whenCreated={map => this.setState({ map })}
+          whenCreated={map => this.setState({map: map })}
         >
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
