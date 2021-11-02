@@ -1,0 +1,9 @@
+.Dashboard{
+    background-image: url(https://www.google.com/search?q=istanbul+medipol+%C3%BCniversitesi&source=lnms&tbm=isch&sa=X&ved=2ahUKEwj3u5LDw_nzAhXShv0HHTUTDyUQ_AUoAXoECAEQAw&biw=1366&bih=657&dpr=1#imgrc=eGPfS07l6zMD_M);
+    position: fixed;
+    min-width: 100%;
+    min-height: 100%;
+    background-size: cover;
+    background-position:center ;
+
+}

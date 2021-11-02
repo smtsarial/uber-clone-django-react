@@ -1,5 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import './style1.css'
+
 
 const Navbar = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -12,12 +14,15 @@ const Navbar = () => {
 
   return (
     <nav id="navbar_campus_driver">
-      <h1 style={{paddingLeft:'20px'}}>Campus Driver</h1>
+      <h1 style={{paddingLeft:'20px'}}className='primary'>Campus Driver</h1>
+      <h1 style={{paddingLeft:'20px'}}className='primary'>Istanbul Medipol University</h1>
+      
       <ul id="navbar_routes">
         {isAuth === true ? (
           <Fragment>
             {' '}
             <li>
+            
               <Link className='link_nav' to='/dashboard'>Dashboard</Link>
             </li>
             <li>

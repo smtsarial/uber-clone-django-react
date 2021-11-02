@@ -1,4 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import './style.css'
+
 
 const Dashboard = () => {
   const [userEmail, setUserEmail] = useState('');
@@ -27,8 +29,8 @@ const Dashboard = () => {
     <div id="dashboard">
       {loading === false && (
         <Fragment>
-          <h1>Dashboard</h1>
-          <h2>Hello {userEmail}!</h2>
+          <h1 style={{paddingLeft:'20px'}}className='primary'>Dashboard1</h1>
+          <h2 style={{paddingLeft:'20px'}}className='primary'>Hello {userEmail}!</h2>
         </Fragment>
       )}
     </div>
