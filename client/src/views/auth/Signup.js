@@ -20,10 +20,10 @@ const Signup = () => {
     e.preventDefault();
     
     const user = {
-      email: email,
-      password1: password1,
-      password2: password2,
-      is_driver: is_driver,
+      "email": email,
+      "password1": password1,
+      "password2": password2,
+      "is_driver": is_driver,
     };
 
     fetch(window.env.BACKEND_URL + "/api/v1/users/auth/register/", {
@@ -51,6 +51,7 @@ const Signup = () => {
   };
 
   const changeUsageStatus = (event) => {
+    console.log(event.target.value);
     if (event.target.value === "traveller"){
       setIs_driver(false);
     }else{

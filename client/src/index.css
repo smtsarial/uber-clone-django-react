@@ -23,7 +23,16 @@ body {
   display: flex;
   list-style-type: none;
   justify-content: space-between;
-  font-size: 20px;
+  margin-top: 14px;
+}
+#user-navbar-email {
+  font-size: 23px;
+  padding-top: 14px;
+}
+#navbar-title{
+  font-size: 23px;
+  padding-top: 14px;
+  font-weight: bold;
 }
 .navbar-button {
   color: white;
@@ -147,3 +156,141 @@ body {
   }
 }
 
+@media only screen and (max-width: 768px) {
+  #user-navbar-email {
+    display: none;
+  }
+  #navbar-title {
+    display: none;
+  }
+}
+
+/* SETTING PAGE CSS */
+#settings {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 40px;
+}
+.settings-form {
+  display: flex;
+  flex-direction: column;
+}
+.settings-form label {
+  padding-bottom: 10px;
+  font: 700;
+  color: azure;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 20px;
+}
+.settings-form input {
+  padding: 8px 8px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 100%;
+}
+.settings-form-card {
+  background-color: rgb(192, 192, 192);
+  border: 1px solid goldenrod;
+  border-radius: 20px;
+  width: fit-content;
+  padding: 20px;
+  margin: auto;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+/*burger menu*/
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: sticky;
+  width: 36px;
+  height: 30px;
+  right: 36px;
+  margin-right: 10px;
+}
+.MuiButton-label {
+  color: red;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.warning {
+  color: rgb(126, 63, 63);
+  text-align: center;
+  font-weight: bold;
+}
+.click-here {
+  color: red;
+  font-weight: bold;
+}
+.MuiDialog-paperWidthSm {
+  background-color: #373a47;
+}
+.bm-burger-bars {
+  background: #373a47;
+}
+.bm-burger-bars-hover {
+  background: #373a47;
+}
+.bm-cross-button {
+  margin-right: 18px;
+}
+.bm-cross {
+  background: #bdc3c7;
+}
+
+.bm-menu-wrap {
+  position: absolute;
+  height: 100%;
+  top: 0px;
+}
+.bm-menu {
+  background: #373a47;
+  padding: 0em 1.5em 0;
+  font-size: 1.15em;
+  overflow: hidden;
+}
+.bm-morph-shape {
+  fill: #373a47;
+}
+.bm-item-list {
+  color: #e9e8e3;
+  padding: 0.7em;
+}
+.video-background-controls {
+  right: 0;
+  left: 10px;
+}
+.bm-item,
+.bm-item:hover {
+  display: inline-block;
+  background-color: rgb(57, 63, 70);
+  color: white;
+  padding: 14px 10px;
+  border-bottom: 2px solid #18191b;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0);
+  width: 0px;
+  height: 0px;
+}
+
+
+/*carpooling groups*/
+#carpooling-groups{
+  background-color: grey;
+  text-align: center;
+  width: 50%;
+  margin: auto;
+  border-radius: 20px;
+  border: 3px solid black;
+}

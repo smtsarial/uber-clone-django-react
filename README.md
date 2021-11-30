@@ -29,3 +29,4 @@ cloning the repository to get it up and running.
 4. NOTE !! npx kill-port 3000 port kullanımdaysa öldürecektir 
 5. NOTE !! Client side 3000 Backend kısmı 8000'de çalışmak zorundadır !!!
 6. django admin panel için createsuperuser kullanılabilir!!
+7. source https://react-bootstrap.github.io/getting-started/introduction/
