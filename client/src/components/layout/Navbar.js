@@ -1,5 +1,6 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, Fragment } from "react";
+import { Link } from "react-router-dom";
+import BurgerMenu from "./burger";
 
 const Navbar = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -21,9 +22,9 @@ const Navbar = () => {
         .then((res) => res.json())
         .then((data) => {
           setUserMail(data.email);
-          if(data.is_driver === false){
+          if (data.is_driver === false) {
             setUserType("Traveller");
-          }else{
+          } else {
             setUserType("Driver");
           }
         });
@@ -32,28 +33,53 @@ const Navbar = () => {
 
   return (
     <nav id="navbar_campus_driver">
-      <h1 style={{paddingLeft:'5px'}}>Campus Driver | {userType}</h1>
+      <Link className="link_nav" to="/dashboard">
+        <h1 id="navbar-title" style={{ paddingLeft: "5px" }}>
+          Campus Driver | {userType}
+        </h1>
+      </Link>
       {/*<h1 style={{}}>{userMail.charAt(0).toUpperCase() + userMail.slice(1)}</h1>*/}
-      <h1 style={{}}>{userMail}</h1>
+      <h1 id="user-navbar-email" style={{}}>
+        {userMail}
+      </h1>
+
       <ul id="navbar_routes">
         {isAuth === true ? (
           <Fragment>
-            {' '}
+            {" "}
             <li>
-              <Link className='link_nav' to='/dashboard'>Dashboard</Link>
+              <Link className="link_nav" to="/dashboard">
+                Dashboard
+              </Link>
+            </li>
+            <li style={{ marginRight: "" }}>
+              <Link className="link_nav" to="/car-pooling">
+                Car Pooling
+              </Link>
+            </li>
+            <li style={{ marginRight: "" }}>
+              <Link className="link_nav" to="/settings">
+                Settings
+              </Link>
             </li>
             <li>
-              <Link className='link_nav' to='/logout'>Logout</Link>
+              <div>
+                <BurgerMenu></BurgerMenu>
+              </div>
             </li>
           </Fragment>
         ) : (
           <Fragment>
-            {' '}
+            {" "}
             <li>
-              <Link className='link_nav' to='/login'>Login</Link>
+              <Link className="link_nav" to="/login">
+                Login
+              </Link>
             </li>
             <li>
-              <Link className='link_nav' to='/signup'>Signup</Link>
+              <Link className="link_nav" to="/signup">
+                Signup
+              </Link>
             </li>
           </Fragment>
         )}

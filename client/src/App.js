@@ -6,6 +6,8 @@ import Logout from "./views/auth/Logout";
 import Dashboard from "./views/app/Dashboard";
 import Driver from "./views/app/driver";
 import Traveller from "./views/app/traveller";
+import Settings from "./views/app/settings"
+import CarPooling from "./views/app/carpooling"
 
 const App = () => {
   return (
@@ -18,6 +20,8 @@ const App = () => {
           <Route path="/signup" component={Signup} exact />
           <Route path="/logout" component={Logout} exact />
           <Route path="/dashboard" component={Dashboard} exact />
+          <Route path="/settings" component={Settings} exact />
+          <Route path="/car-pooling" component={CarPooling} exact />
           <Route path="/driver" component={Driver} exact />
           <Route path="/traveller" component={Traveller} exact />
         </Switch>
