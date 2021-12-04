@@ -12,3 +12,10 @@ class UserListView(ListAPIView):
     serializer_class = UserSerializer
     #permission_classes = [IsAdminUser]
 
+class UserViewSet(ListAPIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = CustomUser.objects.all().filter(is_driver=True)
+    serializer_class = UserDetailsSerializer
+    #permission_classes = [IsAuthenticated]

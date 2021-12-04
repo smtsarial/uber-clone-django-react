@@ -3,11 +3,11 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
 from .models import CustomUser
 
-
+#this file give access for admin pannel user
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ('email', )
+        fields = ('email','is_driver' )
 
 
 class CustomUserChangeForm(UserChangeForm):
