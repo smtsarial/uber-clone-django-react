@@ -1,0 +1,8 @@
+{
+    "files.exclude": {
+        "env": true,
+        "client/node_modules": true,
+        "client/build": true,
+        "client/public": true
+    }
+}

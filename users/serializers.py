@@ -10,8 +10,6 @@ class UserSerializer(ModelSerializer):
         model = CustomUser
         fields = ['email','last_login', 'date_joined', 'is_staff','is_driver', 'is_driver']
 
-
-
 class CustomRegisterSerializer(RegisterSerializer):
     is_driver = serializers.BooleanField()
 
@@ -31,4 +29,4 @@ class UserDetailsSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name')
-        read_only_fields = ('email', )
+        
