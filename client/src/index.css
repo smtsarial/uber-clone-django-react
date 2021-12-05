@@ -18,6 +18,7 @@ body {
   display: flex;
   justify-content: space-between;
   background-color: whitesmoke;
+  
 }
 #navbar_routes {
   display: flex;
@@ -29,7 +30,7 @@ body {
   font-size: 23px;
   padding-top: 14px;
 }
-#navbar-title{
+#navbar-title {
   font-size: 23px;
   padding-top: 14px;
   font-weight: bold;
@@ -284,9 +285,8 @@ body {
   height: 0px;
 }
 
-
 /*carpooling groups*/
-#carpooling-groups{
+#carpooling-groups {
   background-color: grey;
   text-align: center;
   width: 50%;
