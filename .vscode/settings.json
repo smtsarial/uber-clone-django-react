@@ -4,5 +4,6 @@
         "client/node_modules": true,
         "client/build": true,
         "client/public": true
-    }
+    },
+    "workspace.isHidden": false
 }

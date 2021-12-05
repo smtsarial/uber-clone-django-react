@@ -57,6 +57,7 @@ export default class Traveller extends Component {
         lat: latitude,
         lng: longitude,
       });
+      console.log(latitude)
       
     };
     const error = () => {
