@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'allauth',
     'rest_auth.registration',
     'corsheaders',
-
+    'allauth.account',
+    'allauth.socialaccount',
     # Local apps
     'users',  # Responsible for all actions pertaining to user model
 ]
@@ -163,6 +164,7 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%m/%d/%Y %I:%M%P",
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
 }
 REST_AUTH_REGISTER_SERIALIZERS = {

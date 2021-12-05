@@ -30,3 +30,10 @@ class UserDetailsSerializer(ModelSerializer):
         model = CustomUser
         fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name')
         
+class UpdateUserLocation(ModelSerializer):
+    """
+    User model w/o password
+    """
+    class Meta:
+        model = CustomUser
+        fields = ('pk','longitude','latitude')
