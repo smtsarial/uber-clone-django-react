@@ -4,15 +4,14 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from .models import CustomUser
 
-from .serializers import   UpdateUserLocation, UserSerializer ,UserDetailsSerializer
+from .serializers import   UpdateUserLocation, UserSerializer ,UserDetailsSerializer, UserSettingSerializer
 
 #custom permission class 
 class IsOwnOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request in permissions.SAFE_METHODS:
             return True
-
-        return request.user == obj.pk
+        return request.user.pk == obj.pk
 
 class UserListView(ListAPIView):
     queryset = CustomUser.objects.all()
@@ -32,5 +31,9 @@ class CustomUserDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = UpdateUserLocation
     permission_classes = [IsOwnOrReadOnly] # custom permission class
 
+class CustomUserSettingsAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSettingSerializer
+    permission_classes = [IsOwnOrReadOnly] # custom permission class
 
 

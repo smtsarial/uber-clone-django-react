@@ -91,7 +91,7 @@ const BurgerMenu = (props) => {
     if (travellerRequests.length !== 0) {
       return (
         <Menu right pageWrapId={"page-wrap"} width={"45%"}>
-          <h1 style={{ fontSize: "35px", textAlign: "center" }}>
+          <h1 key="asfasf" style={{ fontSize: "35px", textAlign: "center" }}>
             Traveller Requests
           </h1>
           {travellerRequests.map((element) => (

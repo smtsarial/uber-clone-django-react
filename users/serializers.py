@@ -8,7 +8,12 @@ from rest_auth.registration.serializers import RegisterSerializer
 class UserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['email','last_login', 'date_joined', 'is_staff','is_driver', 'is_driver']
+        fields = ['pk','email','last_login', 'date_joined', 'is_staff','is_driver']
+
+class UserSettingSerializer(ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['pk','email','is_driver', 'is_driver','username','first_name','last_name']
 
 class CustomRegisterSerializer(RegisterSerializer):
     is_driver = serializers.BooleanField()
@@ -32,7 +37,7 @@ class UserDetailsSerializer(ModelSerializer):
         
 class UpdateUserLocation(ModelSerializer):
     """
-    User model w/o password
+    User location serializer
     """
     class Meta:
         model = CustomUser

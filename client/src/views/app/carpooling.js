@@ -11,7 +11,7 @@ const CarPooling = (props) => {
   ]);
   if (groupList.length !== 0) {
     return (
-      <div c>
+      <div>
         <h1 style={{ fontSize: "35px", textAlign: "center",paddingTop:"20px",fontWeight:"bold"}}>Car Pooling</h1>
 
         <div id="carpooling-groups">{groupList.map((element) => (
