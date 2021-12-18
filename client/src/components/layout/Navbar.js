@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
 import BurgerMenu from "./burger";
+import { v4 as uuidv4 } from 'uuid';
 
 const Navbar = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -64,7 +65,7 @@ const Navbar = () => {
             </li>
             <li>
               <div>
-                <BurgerMenu></BurgerMenu>
+                <BurgerMenu key={uuidv4()}></BurgerMenu>
               </div>
             </li>
           </Fragment>

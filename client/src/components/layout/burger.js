@@ -2,34 +2,10 @@ import { slide as Menu } from "react-burger-menu";
 import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import { v4 as uuidv4 } from 'uuid';
 
 const BurgerMenu = (props) => {
-  const [avaliableDrivers, setAvaliableDrivers] = useState([
-    {
-      driverName: "Samet1",
-      carType: "VAN",
-      star: "1",
-      driverUsername: "smtsarial1",
-    },
-    {
-      driverName: "Samet2",
-      carType: "VAN",
-      star: "2",
-      driverUsername: "smtsarial2",
-    },
-    {
-      driverName: "Samet3",
-      carType: "VAN",
-      star: "3",
-      driverUsername: "smtsarial3",
-    },
-    {
-      driverName: "Samet4",
-      carType: "VAN",
-      star: "4",
-      driverUsername: "smtsarial4",
-    },
-  ]);
+  const [avaliableDrivers, setAvaliableDrivers] = useState([]);
   const [travellerRequests, setTravellerRequests] = useState([
     {
       travellerId: "1",
@@ -69,6 +45,12 @@ const BurgerMenu = (props) => {
       setUserType("");
     } else {
       setIsAuth(true);
+      fetch(window.env.BACKEND_URL + "/api/v1/users/")
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+          setAvaliableDrivers(response)
+        });
       fetch(window.env.BACKEND_URL + "/api/v1/users/auth/user/", {
         method: "GET",
         headers: {
@@ -95,7 +77,7 @@ const BurgerMenu = (props) => {
             Traveller Requests
           </h1>
           {travellerRequests.map((element) => (
-            <div key={element.groupId} id="carpooling-card">
+            <div key={uuidv4()} id="carpooling-card">
               <h4>Traveller Name: {element.travellerName}</h4>
               <h5>Traveller ID: {element.travellerId}</h5>
               <h5>Estimated Profit: {element.profit} TL</h5>
@@ -124,13 +106,35 @@ const BurgerMenu = (props) => {
           <h1 style={{ fontSize: "35px", textAlign: "center" }}>
             Avaliable Drivers
           </h1>
+          <span>
+            <h3 style={{ textAlign: "center" }}>Destination</h3>
+            <div style={{ display: "flex",margin:"auto",justifyContent:"center"}}>
+              <label>
+                Longitude
+                <div>
+                  <input
+                    type="text"
+                    name="longitude"
+                    placeholder="{longitude}"
+                  />
+                </div>
+              </label>
+              <label>
+                Latitude
+                <div>
+                  <input type="text" name="latitude" placeholder="{latitude}" />
+                </div>
+              </label>
+            </div>
+          </span>
 
           {avaliableDrivers.map((element) => (
-            <div key={element.groupId} id="carpooling-card">
-              <h4>Driver Username: {element.driverUsername}</h4>
-              <h5>Driver Name: {element.driverName}</h5>
-              <h5>Car Type: {element.carType}</h5>
-              <h5>Driver Star: {element.star}</h5>
+            <div key={uuidv4()} id="driver-card">
+              <h4>Driver Username: {element.username}</h4>
+              <h5>Driver Email: {element.email}</h5>
+              <h5>Driver Name: {element.first_name} {element.last_name}</h5>
+              <h5>Car Type: VAN</h5>
+              <h5>Driver Star: 5</h5>
               <Button variant="success">Send Request</Button>{" "}
             </div>
           ))}
@@ -150,3 +154,6 @@ const BurgerMenu = (props) => {
 };
 
 export default BurgerMenu;
+
+// bu link navigasyonu göstermede kullanılacaktır
+//https://www.google.com/maps/dir/40.05503,+28.08488/40.0550272,29.0848768/@40.1163669,28.0303126,9z/data=!3m1!4b1!4m9!4m8!1m5!1m1!1s0x0:0x90bae5d7308c35c0!2m2!1d28.08488!2d40.05503!1m0!3e0

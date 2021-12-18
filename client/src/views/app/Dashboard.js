@@ -17,7 +17,7 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.isDriver === true) {
+          if (data.is_driver == true) {
             window.location.replace(window.env.FRONTEND_URL + "/driver");
           } else {
             window.location.replace(window.env.FRONTEND_URL + "/traveller");

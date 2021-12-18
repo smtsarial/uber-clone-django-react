@@ -8,8 +8,8 @@ class CustomUser(AbstractUser):
         default=1,
         validators=[MinValueValidator(1), MaxValueValidator(5)],
     )
-    latitude = models.FloatField(default=0.0)
-    longitude = models.FloatField(default=0.0)
+    latitude = models.FloatField(default=40.0550272)
+    longitude = models.FloatField(default=29.0848768)
 
     def __str__(self):
         return self.email

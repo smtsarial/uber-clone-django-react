@@ -9,7 +9,7 @@ const Dashboard = () => {
   const [userlastname, setUserlastname] = useState("");
   const [useremail, setUseremail] = useState("");
   const [username, setUsername] = useState("");
-  const [userdriver, setUserdriver] = useState(false);
+  const [userdriver, setUserdriver] = useState();
   useEffect(() => {
     if (localStorage.getItem("token") === null) {
       window.location.replace(window.env.FRONTEND_URL + "/login");
@@ -23,20 +23,19 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          //console.log(data);
+          console.log(data);
           setUseremail(data.email);
           setUserpk(data.pk);
           setUserfirstname(data.first_name);
           setUsername(data.username);
           setUserlastname(data.last_name);
-          setUserdriver(data.driver);
+          setUserdriver(String(data.driver));
           setLoading(false);
         });
     }
   }, []);
 
   const handleChangeUserInfo = (event) => {
-    console.log(userdriver);
     if (localStorage.getItem("token") === null) {
       window.location.replace(window.env.FRONTEND_URL + "/login");
     } else {
@@ -61,10 +60,20 @@ const Dashboard = () => {
   };
   /////////////////
   const handleUserTypeChange = (event) => {
+    console.log(event.target.value);
     if (event.target.value === "true") {
       setUserdriver(true);
     } else {
       setUserdriver(false);
+    }
+  };
+  const handleChange = ({ target }) => {
+    if (target.checked) {
+      target.removeAttribute("checked");
+      target.parentNode.style.textDecoration = "";
+    } else {
+      target.setAttribute("checked", true);
+      target.parentNode.style.textDecoration = "line-through";
     }
   };
   ////////////////
@@ -134,12 +143,13 @@ const Dashboard = () => {
             <label>
               User Type
               <div>
-                <select value={toString(userdriver)} onChange={handleUserTypeChange}>
-                  <option value="true">Driver</option>
-                  <option value="false">Traveller</option>
+                <select defaultValue={String(userdriver)} onChange={handleUserTypeChange}>
+                  <option value={true}>Driver</option>
+                  <option value={false}>Traveller</option>
                 </select>
               </div>
             </label>
+
             <input
               type="submit"
               value="Save Account Information"
