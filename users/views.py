@@ -1,10 +1,11 @@
 from rest_framework import permissions
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
+from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, ListModelMixin
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
-from .models import CustomUser
-
-from .serializers import   UpdateUserLocation, UserSerializer ,UserDetailsSerializer, UserSettingSerializer
+from .models import CustomUser, Trip
+from datetime import datetime
+from .serializers import   CreateTripSerializer, UpdateUserLocation, UserSerializer ,UserDetailsSerializer, UserSettingSerializer
 
 #custom permission class 
 class IsOwnOrReadOnly(permissions.BasePermission):
@@ -37,3 +38,49 @@ class CustomUserSettingsAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnOrReadOnly] # custom permission class
 
 
+###### trip
+
+class TripViewSet(ListModelMixin, CreateModelMixin,GenericAPIView,DestroyModelMixin,):
+    """
+    Trip viewset
+    """
+    queryset = Trip.objects.all()
+    serializer_class = CreateTripSerializer
+    # listelemek
+    def get(self, request, *args, **kwargs):
+        print("request")
+        print(request)
+        return self.list(request, *args, **kwargs)
+
+    # yaratmak istiyorum
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+class TripDetailAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Trip.objects.all()
+    serializer_class = CreateTripSerializer
+
+
+class TravellerTripsAPIView(ListAPIView):
+    serializer_class = CreateTripSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        print(self.kwargs['travellerId'])
+        print(Trip.objects.all().filter(travellerId_id = 2))
+        return Trip.objects.all().filter(travellerId_id = self.kwargs['travellerId'])
+
+class DriverTripsAPIView(ListAPIView):
+    serializer_class = CreateTripSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        print(self.kwargs['driverId'])
+        print(Trip.objects.all().filter(driverId = 2))
+        return Trip.objects.all().filter(driverId_id = self.kwargs['driverId'])

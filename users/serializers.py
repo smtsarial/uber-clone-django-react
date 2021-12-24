@@ -1,19 +1,20 @@
 from datetime import datetime
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import CustomUser
+from .models import CustomUser, Trip
 from django.db import transaction
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
+from datetime import datetime
 
 class UserSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['pk','email','last_login', 'date_joined', 'is_staff','is_driver']
+        fields = ['pk','email','last_login', 'date_joined', 'is_staff','is_driver','balance']
 
 class UserSettingSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['pk','email','is_driver', 'is_driver','username','first_name','last_name']
+        fields = ['pk','email','is_driver', 'is_driver','username','first_name','last_name','balance']
 
 class CustomRegisterSerializer(RegisterSerializer):
     is_driver = serializers.BooleanField()
@@ -33,7 +34,7 @@ class UserDetailsSerializer(ModelSerializer):
     """
     class Meta:
         model = CustomUser
-        fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name')
+        fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name','longitude','latitude','balance')
         
 class UpdateUserLocation(ModelSerializer):
     """
@@ -42,3 +43,12 @@ class UpdateUserLocation(ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('pk','longitude','latitude')
+
+
+class CreateTripSerializer(ModelSerializer):
+    """
+    Trip creation 
+    """
+    class Meta:
+        model = Trip
+        fields = '__all__'
