@@ -17,6 +17,7 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then((data) => {
+          localStorage.setItem("user_id", data.pk)
           if (data.is_driver == true) {
             window.location.replace(window.env.FRONTEND_URL + "/driver");
           } else {

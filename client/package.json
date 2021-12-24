@@ -12,6 +12,7 @@
     "leaflet-geosearch": "^3.5.0",
     "leaflet-routing-machine": "^3.2.12",
     "react": "^17.0.2",
+    "react-alert": "^7.0.3",
     "react-bootstrap": "^2.0.2",
     "react-burger-menu": "^3.0.6",
     "react-dom": "^17.0.2",

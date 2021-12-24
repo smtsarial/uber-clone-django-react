@@ -40,7 +40,6 @@ export default class Traveller extends Component {
       fetch(window.env.BACKEND_URL + "/api/v1/users/")
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           this.setState({ markers: response });
         });
       fetch(window.env.BACKEND_URL + "/api/v1/users/auth/user/", {
@@ -52,9 +51,7 @@ export default class Traveller extends Component {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           this.setState({ userpk: data.pk });
-          console.log(this.state.userpk);
           console.log("Traveller Başarılı giriş");
         });
     }
@@ -85,7 +82,6 @@ export default class Traveller extends Component {
         lat: latitude,
         lng: longitude,
       });
-      console.log(latitude);
     };
     const error = () => {
       console.log("Unable to retrieve your location");
