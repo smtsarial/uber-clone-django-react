@@ -61,19 +61,11 @@ const Dashboard = () => {
   /////////////////
   const handleUserTypeChange = (event) => {
     console.log(event.target.value);
+    console.log(userfirstname)
     if (event.target.value === "true") {
       setUserdriver(true);
     } else {
       setUserdriver(false);
-    }
-  };
-  const handleChange = ({ target }) => {
-    if (target.checked) {
-      target.removeAttribute("checked");
-      target.parentNode.style.textDecoration = "";
-    } else {
-      target.setAttribute("checked", true);
-      target.parentNode.style.textDecoration = "line-through";
     }
   };
   ////////////////

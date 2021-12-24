@@ -8,6 +8,7 @@ import Driver from "./views/app/driver";
 import Traveller from "./views/app/traveller";
 import Settings from "./views/app/settings"
 import CarPooling from "./views/app/carpooling"
+import Trips from './views/app/trips'
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/car-pooling" component={CarPooling} exact />
           <Route path="/driver" component={Driver} exact />
           <Route path="/traveller" component={Traveller} exact />
+          <Route path="/trips" component={Trips} exact />
         </Switch>
       </Router>
     </div>
