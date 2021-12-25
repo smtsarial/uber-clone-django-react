@@ -5,19 +5,23 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from .models import CustomUser, Trip
 from datetime import datetime
-from .serializers import   CreateTripSerializer, UpdateUserLocation, UserSerializer ,UserDetailsSerializer, UserSettingSerializer
+from .serializers import CreateTripSerializer, UpdateUserBudget, UpdateUserLocation, UserSerializer, UserDetailsSerializer, UserSettingSerializer
 
-#custom permission class 
+# custom permission class
+
+
 class IsOwnOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request in permissions.SAFE_METHODS:
             return True
         return request.user.pk == obj.pk
 
+
 class UserListView(ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
-    #permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
+
 
 class UserViewSet(ListAPIView):
     """
@@ -25,28 +29,34 @@ class UserViewSet(ListAPIView):
     """
     queryset = CustomUser.objects.all().filter(is_driver=True)
     serializer_class = UserDetailsSerializer
-    #permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 class CustomUserDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UpdateUserLocation
-    permission_classes = [IsOwnOrReadOnly] # custom permission class
+    permission_classes = [IsOwnOrReadOnly]  # custom permission class
+
+class UserBudgetAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UpdateUserBudget
+
 
 class CustomUserSettingsAPIView(RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSettingSerializer
-    permission_classes = [IsOwnOrReadOnly] # custom permission class
+    permission_classes = [IsOwnOrReadOnly]  # custom permission class
 
 
-###### trip
+# trip
 
-class TripViewSet(ListModelMixin, CreateModelMixin,GenericAPIView,DestroyModelMixin,):
+class TripViewSet(ListModelMixin, CreateModelMixin, GenericAPIView, DestroyModelMixin,):
     """
     Trip viewset
     """
     queryset = Trip.objects.all()
     serializer_class = CreateTripSerializer
     # listelemek
+
     def get(self, request, *args, **kwargs):
         print("request")
         print(request)
@@ -55,6 +65,8 @@ class TripViewSet(ListModelMixin, CreateModelMixin,GenericAPIView,DestroyModelMi
     # yaratmak istiyorum
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+      
 
 class TripDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()

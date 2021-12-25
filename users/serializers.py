@@ -44,6 +44,13 @@ class UpdateUserLocation(ModelSerializer):
         model = CustomUser
         fields = ('pk','longitude','latitude')
 
+class UpdateUserBudget(ModelSerializer):
+    """
+    User location serializer
+    """
+    class Meta:
+        model = CustomUser
+        fields = ('pk','balance')
 
 class CreateTripSerializer(ModelSerializer):
     """

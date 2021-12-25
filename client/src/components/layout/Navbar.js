@@ -1,12 +1,13 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
 import BurgerMenu from "./burger";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const Navbar = () => {
   const [isAuth, setIsAuth] = useState(false);
   const [userType, setUserType] = useState("");
   const [userMail, setUserMail] = useState("");
+  const [userBudget, setUserBudget] = useState("");
   useEffect(() => {
     if (localStorage.getItem("token") === null) {
       setUserType("");
@@ -23,6 +24,7 @@ const Navbar = () => {
         .then((res) => res.json())
         .then((data) => {
           setUserMail(data.email);
+          setUserBudget(data.balance);
           if (data.is_driver === false) {
             setUserType("Traveller");
           } else {
@@ -40,9 +42,11 @@ const Navbar = () => {
         </h1>
       </Link>
       {/*<h1 style={{}}>{userMail.charAt(0).toUpperCase() + userMail.slice(1)}</h1>*/}
-      <h1 id="user-navbar-email" style={{}}>
-        {userMail}
-      </h1>
+      <h3 id="user-navbar-email" style={{}}>
+        <b>
+          {userMail}
+        </b>
+      </h3>
 
       <ul id="navbar_routes">
         {isAuth === true ? (
