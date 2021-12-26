@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 
 const Trips = (props) => {
   const [requests, setRequests] = useState("");
+  const [update, setUpdate] = useState();
 
   const deleteTripDetailsHandle = (e) => {
     fetch(
@@ -12,7 +13,7 @@ const Trips = (props) => {
       }
     )
       .then((res) => res.text())
-      .then((res) => console.log(res)).then((data) => window.location.reload());
+      .then((res) => setUpdate(res));
   };
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const Trips = (props) => {
       .then((data) => {
         setRequests(data);
       });
-  }, []);
+  }, [update]);
 
   if (requests.length !== 0) {
     return (

@@ -29,3 +29,13 @@ class Trip(models.Model):
     
     def __str__(self):
         return str(self.status)
+
+class CarPooling(models.Model):
+    groupName=  models.CharField(max_length=255)
+    wplink =  models.CharField(max_length=255)
+    
+    start_time =  models.CharField(max_length=5, default="00:00")
+    member_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="traveller1")
+    creator_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="creator")
+    def __str__(self):
+        return str(self.groupName)
