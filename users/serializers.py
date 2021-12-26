@@ -1,6 +1,6 @@
 from datetime import datetime
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import CustomUser, Trip
+from .models import CarPooling, CustomUser, Trip
 from django.db import transaction
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
@@ -58,4 +58,14 @@ class CreateTripSerializer(ModelSerializer):
     """
     class Meta:
         model = Trip
+        fields = '__all__'
+
+
+# CAR POOLING OPERATIONS 
+class CreateCarPoolGroupSerializer(ModelSerializer):
+    """
+    Trip creation 
+    """
+    class Meta:
+        model = CarPooling
         fields = '__all__'

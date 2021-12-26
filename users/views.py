@@ -3,9 +3,9 @@ from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, U
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, ListModelMixin
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
-from .models import CustomUser, Trip
+from .models import CarPooling, CustomUser, Trip
 from datetime import datetime
-from .serializers import CreateTripSerializer, UpdateUserBudget, UpdateUserLocation, UserSerializer, UserDetailsSerializer, UserSettingSerializer
+from .serializers import CreateCarPoolGroupSerializer, CreateTripSerializer, UpdateUserBudget, UpdateUserLocation, UserSerializer, UserDetailsSerializer, UserSettingSerializer
 
 # custom permission class
 
@@ -96,3 +96,19 @@ class DriverTripsAPIView(ListAPIView):
         print(self.kwargs['driverId'])
         print(Trip.objects.all().filter(driverId = 2))
         return Trip.objects.all().filter(driverId_id = self.kwargs['driverId'])
+
+# CARPOOLING GROUP VIEWS 
+
+class CarPoolingGroups(ListModelMixin, CreateModelMixin, GenericAPIView, DestroyModelMixin):
+    queryset = CarPooling.objects.all()
+    serializer_class = CreateCarPoolGroupSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    # yaratmak istiyorum
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+

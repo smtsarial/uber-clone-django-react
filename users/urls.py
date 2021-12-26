@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from .views import   CustomUserDetailAPIView, CustomUserSettingsAPIView, DriverTripsAPIView, TravellerTripsAPIView,  TripDetailAPIView, TripViewSet, UserBudgetAPIView, UserViewSet
+from .views import   CarPoolingGroups, CustomUserDetailAPIView, CustomUserSettingsAPIView, DriverTripsAPIView, TravellerTripsAPIView,  TripDetailAPIView, TripViewSet, UserBudgetAPIView, UserViewSet
 
 urlpatterns = [
     path('', UserViewSet.as_view()),
@@ -14,4 +14,6 @@ urlpatterns = [
     path('trips/traveller/<int:travellerId>',TravellerTripsAPIView.as_view(), name='traveller-trips' ),
     path('trips/driver/<int:driverId>',DriverTripsAPIView.as_view(), name='driver-trips' ),
     path('change-trip-status/<int:pk>',TripDetailAPIView.as_view(), name='change-trip-status'),
+    
+    path('carpooling/',CarPoolingGroups.as_view(), name='change-trip-status1'),
 ]

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
-import { useAlert } from "react-alert";
+import {  Alert, AlertContainer } from "react-bs-notifier";
 
 function calcCrow(lat1, lon1, lat2, lon2) {
   var R = 6371; // km
@@ -29,7 +29,6 @@ function toRad(Value) {
 const BurgerMenu = (props) => {
   const [avaliableDrivers, setAvaliableDrivers] = useState([]);
   const [travellerRequests, setTravellerRequests] = useState([]);
-  const [isAuth, setIsAuth] = useState(false);
   const [userType, setUserType] = useState("");
   const [TripStartLang, setTripStartLang] = useState();
   const [TripStartLat, setTripStartLat] = useState();
@@ -39,11 +38,25 @@ const BurgerMenu = (props) => {
   const [TripTravellerId, setTripTravellerId] = useState();
   const [preBudget, setPreBudget] = useState();
   const [clicked, setClicked] = useState("");
+  const [userLocLong, setUserLocLong] = useState();
+  const [userLocLat, setUserLocLat] = useState();
+
+  const [showing, setShowing] = React.useState({
+    info: false,
+    success: false,
+    warning: false,
+    danger: false,
+  });
+
+  const onAlertToggle = React.useCallback(
+    (type) => setShowing((s) => ({ ...s, [type]: !s[type] })),
+    []
+  );
+
   useEffect(() => {
     if (localStorage.getItem("token") === null) {
       setUserType("");
     } else {
-      setIsAuth(true);
       fetch(window.env.BACKEND_URL + "/api/v1/users/")
         .then((response) => response.json())
         .then((response) => {
@@ -62,6 +75,8 @@ const BurgerMenu = (props) => {
           setTripStartLang(data.longitude);
           setTripStartLat(data.latitude);
           setPreBudget(data.balance);
+          setUserLocLong(data.longitude);
+          setUserLocLat(data.latitude);
           if (data.is_driver === false) {
             setUserType("Traveller");
           } else {
@@ -83,7 +98,7 @@ const BurgerMenu = (props) => {
   const tripAcceptHandle = (e) => {
     var a = travellerRequests.filter((x) => x.id === parseInt(e))[0];
     //http://127.0.0.1:8000/api/v1/users/change-trip-status/1
-    if (a.status != "ACCEPTED") {
+    if (a.status !== "ACCEPTED") {
       fetch(
         window.env.BACKEND_URL + "/api/v1/users/change-trip-status/" + a.id,
         {
@@ -124,47 +139,53 @@ const BurgerMenu = (props) => {
     } else {
       console.log("status accepted");
     }
-    
+
     setClicked("accept");
   };
 
   const tripDeclineHandle = (e) => {
     var a = travellerRequests.filter((x) => x.id === parseInt(e))[0];
     //http://127.0.0.1:8000/api/v1/users/change-trip-status/1
-    if(a.status != "DECLINED"){
-      fetch(window.env.BACKEND_URL + "/api/v1/users/change-trip-status/" + a.id, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          id: a.id,
-          startLong: a.startLong,
-          endLong: a.endLong,
-          startLat: a.startLat,
-          endLat: a.endLat,
-          givenStar: a.givenStar,
-          price: a.price,
-          status: "DECLINED",
-          driverId: a.driverId,
-          travellerId: a.travellerId,
-        }),
-      });
+    if (a.status !== "DECLINED") {
+      fetch(
+        window.env.BACKEND_URL + "/api/v1/users/change-trip-status/" + a.id,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            id: a.id,
+            startLong: a.startLong,
+            endLong: a.endLong,
+            startLat: a.startLat,
+            endLat: a.endLat,
+            givenStar: a.givenStar,
+            price: a.price,
+            status: "DECLINED",
+            driverId: a.driverId,
+            travellerId: a.travellerId,
+          }),
+        }
+      );
       console.log(preBudget);
-      fetch(window.env.BACKEND_URL + "/api/v1/users/user-balance/" + a.driverId, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          pk: a.driverId,
-          balance: Math.abs(parseFloat(preBudget) - parseFloat(a.price)),
-        }),
-      });
-    }else{
-      console.log("status decline")
+      fetch(
+        window.env.BACKEND_URL + "/api/v1/users/user-balance/" + a.driverId,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            pk: a.driverId,
+            balance: Math.abs(parseFloat(preBudget) - parseFloat(a.price)),
+          }),
+        }
+      );
+    } else {
+      console.log("status decline");
     }
     setClicked("decline");
   };
@@ -217,21 +238,14 @@ const BurgerMenu = (props) => {
           </h6>
           {travellerRequests.map((element) => (
             <div key={uuidv4()} id="carpooling-card">
-              
               <h4>Trip ID: {element.id}</h4>
               <h4>Traveller ID: {element.travellerId}</h4>
               <h5>
                 Start Location: {element.startLong}-{element.startLat}
-                
+                {userLocLat}
               </h5>
               <h5>
                 End Location: {element.endLong}-{element.endLat}
-                <Button
-                variant="success"
-                value={element.pk}
-                onClick={(e) => {
-                }}
-              >Stop Location</Button>
               </h5>
               <h5>Earn: {element.price} TL</h5>
               <h5>Status: {element.status}</h5>
@@ -270,6 +284,19 @@ const BurgerMenu = (props) => {
     if (avaliableDrivers.length !== 0) {
       return (
         <Menu right pageWrapId={"page-wrap"} width={"45%"}>
+          <AlertContainer position="top-left">
+            {showing.success ? (
+              <Alert type="success">
+                Travel Request sended to Driver!
+              </Alert>
+            ) : null}
+
+            {showing.warning ? (
+              <Alert type="warning">
+                Something bad may be about to happen.
+              </Alert>
+            ) : null}
+          </AlertContainer>
           <h1 style={{ fontSize: "35px", textAlign: "center" }}>
             Avaliable Drivers
           </h1>
@@ -343,6 +370,7 @@ const BurgerMenu = (props) => {
                 value={element.pk}
                 onClick={(e) => {
                   createTripHandle(e);
+                  onAlertToggle("success")
                 }}
               >
                 Send Request
