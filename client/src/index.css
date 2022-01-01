@@ -270,10 +270,15 @@ body {
   background: #bdc3c7;
 }
 
+#carpooling {
+  display: flex;
+}
+
 .bm-menu-wrap {
   position: absolute;
   height: 100%;
   top: 0px;
+  width: 90% !important;
 }
 .bm-menu {
   background: #373a47;

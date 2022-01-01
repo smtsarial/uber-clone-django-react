@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from .models import CarPooling, CustomUser, Trip
 from datetime import datetime
-from .serializers import CreateCarPoolGroupSerializer, CreateTripSerializer, UpdateUserBudget, UpdateUserLocation, UserSerializer, UserDetailsSerializer, UserSettingSerializer
+from .serializers import CreateCarPoolGroupSerializer, CreateTripSerializer, UpdateUserBudget, UpdateUserCarGroup, UpdateUserLocation, UpdateUserStar, UserSerializer, UserDetailsSerializer, UserSettingSerializer
 
 # custom permission class
 
@@ -40,6 +40,14 @@ class UserBudgetAPIView(RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UpdateUserBudget
 
+class UserStarAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UpdateUserStar
+
+class UserGroupAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UpdateUserCarGroup
+    permission_classes = [IsOwnOrReadOnly]
 
 class CustomUserSettingsAPIView(RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()

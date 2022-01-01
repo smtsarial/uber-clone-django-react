@@ -52,6 +52,23 @@ class UpdateUserBudget(ModelSerializer):
         model = CustomUser
         fields = ('pk','balance')
 
+class UpdateUserStar(ModelSerializer):
+    """
+    User star serializer
+    """
+    class Meta:
+        model = CustomUser
+        fields = ('pk','star')
+
+
+class UpdateUserCarGroup(ModelSerializer):
+    """
+    User carpool group serializer
+    """
+    class Meta:
+        model = CustomUser
+        fields = ('pk','registeredCarGroup')
+
 class CreateTripSerializer(ModelSerializer):
     """
     Trip creation 
