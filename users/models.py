@@ -11,6 +11,7 @@ class CustomUser(AbstractUser):
     latitude = models.FloatField(default=40.0550272)
     longitude = models.FloatField(default=29.0848768)
     balance = models.FloatField(default=9999.0)
+    registeredCarGroup = models.IntegerField(default=0)
 
     def __str__(self):
         return self.email

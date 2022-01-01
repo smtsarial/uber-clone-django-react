@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
-import {  Alert, AlertContainer } from "react-bs-notifier";
+import { Alert, AlertContainer } from "react-bs-notifier";
 
 function calcCrow(lat1, lon1, lat2, lon2) {
   var R = 6371; // km
@@ -37,7 +37,7 @@ const BurgerMenu = (props) => {
   const [TripDriverId, setTripDriverId] = useState();
   const [TripTravellerId, setTripTravellerId] = useState();
   const [preBudget, setPreBudget] = useState();
-  const [clicked, setClicked] = useState("");
+  const [clicked, setClicked] = useState();
   const [userLocLong, setUserLocLong] = useState();
   const [userLocLat, setUserLocLat] = useState();
 
@@ -54,50 +54,96 @@ const BurgerMenu = (props) => {
   );
 
   useEffect(() => {
-    if (localStorage.getItem("token") === null) {
-      setUserType("");
-    } else {
-      fetch(window.env.BACKEND_URL + "/api/v1/users/")
-        .then((response) => response.json())
-        .then((response) => {
-          setAvaliableDrivers(response);
-        });
-      fetch(window.env.BACKEND_URL + "/api/v1/users/auth/user/", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setTripTravellerId(data.pk);
-          setTripStartLang(data.longitude);
-          setTripStartLat(data.latitude);
-          setPreBudget(data.balance);
-          setUserLocLong(data.longitude);
-          setUserLocLat(data.latitude);
-          if (data.is_driver === false) {
-            setUserType("Traveller");
-          } else {
-            setUserType("Driver");
-          }
-        });
-      fetch(
-        window.env.BACKEND_URL +
-          "/api/v1/users/trips/driver/" +
-          localStorage.getItem("user_id")
-      )
-        .then((response) => response.json())
-        .then((response) => {
-          setTravellerRequests(response);
-        });
-    }
+    setTimeout(() => {
+
+      if (localStorage.getItem("token") === null) {
+        setUserType("");
+      } else {
+        fetch(window.env.BACKEND_URL + "/api/v1/users/")
+          .then((response) => response.json())
+          .then((response) => {
+            setAvaliableDrivers(response);
+          });
+        fetch(window.env.BACKEND_URL + "/api/v1/users/auth/user/", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setTripTravellerId(data.pk);
+            setTripStartLang(data.longitude);
+            setTripStartLat(data.latitude);
+            setPreBudget(data.balance);
+            setUserLocLong(data.longitude);
+            setUserLocLat(data.latitude);
+            if (data.is_driver === false) {
+              setUserType("Traveller");
+            } else {
+              setUserType("Driver");
+            }
+          });
+        fetch(
+          window.env.BACKEND_URL +
+            "/api/v1/users/trips/driver/" +
+            localStorage.getItem("user_id")
+        )
+          .then((response) => response.json())
+          .then((response) => {
+            setTravellerRequests(response);
+          });
+      }
+    }, 500);
   }, [clicked]);
+
+  const tripCompletedHandle = (e) => {
+    var a = travellerRequests.filter((x) => x.id === parseInt(e))[0];
+    if (a.status !== "COMPLETED") {
+      fetch(
+        window.env.BACKEND_URL + "/api/v1/users/change-trip-status/" + a.id,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            id: a.id,
+            startLong: a.startLong,
+            endLong: a.endLong,
+            startLat: a.startLat,
+            endLat: a.endLat,
+            givenStar: a.givenStar,
+            price: a.price,
+            status: "COMPLETED",
+            driverId: a.driverId,
+            travellerId: a.travellerId,
+          }),
+        }
+      );
+      fetch(
+        window.env.BACKEND_URL + "/api/v1/users/user-balance/" + a.driverId,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            pk: a.driverId,
+            balance: parseFloat(preBudget) + parseFloat(a.price),
+          }),
+        }
+      );
+    } else {
+      console.log("status completed");
+    }
+  };
 
   const tripAcceptHandle = (e) => {
     var a = travellerRequests.filter((x) => x.id === parseInt(e))[0];
-    //http://127.0.0.1:8000/api/v1/users/change-trip-status/1
     if (a.status !== "ACCEPTED") {
       fetch(
         window.env.BACKEND_URL + "/api/v1/users/change-trip-status/" + a.id,
@@ -121,7 +167,6 @@ const BurgerMenu = (props) => {
           }),
         }
       );
-      console.log(preBudget);
       fetch(
         window.env.BACKEND_URL + "/api/v1/users/user-balance/" + a.driverId,
         {
@@ -132,20 +177,17 @@ const BurgerMenu = (props) => {
           },
           body: JSON.stringify({
             pk: a.driverId,
-            balance: parseFloat(preBudget) + parseFloat(a.price),
+            balance: parseFloat(preBudget),
           }),
         }
       );
     } else {
       console.log("status accepted");
     }
-
-    setClicked("accept");
   };
 
   const tripDeclineHandle = (e) => {
     var a = travellerRequests.filter((x) => x.id === parseInt(e))[0];
-    //http://127.0.0.1:8000/api/v1/users/change-trip-status/1
     if (a.status !== "DECLINED") {
       fetch(
         window.env.BACKEND_URL + "/api/v1/users/change-trip-status/" + a.id,
@@ -169,7 +211,6 @@ const BurgerMenu = (props) => {
           }),
         }
       );
-      console.log(preBudget);
       fetch(
         window.env.BACKEND_URL + "/api/v1/users/user-balance/" + a.driverId,
         {
@@ -187,7 +228,6 @@ const BurgerMenu = (props) => {
     } else {
       console.log("status decline");
     }
-    setClicked("decline");
   };
 
   const createTripHandle = (e) => {
@@ -234,7 +274,7 @@ const BurgerMenu = (props) => {
             key="asfasf"
             style={{ fontSize: "25px", textAlign: "center", color: "green" }}
           >
-            Budget: {preBudget.toFixed(2)} TL
+            Budget: {preBudget} TL
           </h6>
           {travellerRequests.map((element) => (
             <div key={uuidv4()} id="carpooling-card">
@@ -242,7 +282,6 @@ const BurgerMenu = (props) => {
               <h4>Traveller ID: {element.travellerId}</h4>
               <h5>
                 Start Location: {element.startLong}-{element.startLat}
-                {userLocLat}
               </h5>
               <h5>
                 End Location: {element.endLong}-{element.endLat}
@@ -251,16 +290,32 @@ const BurgerMenu = (props) => {
               <h5>Status: {element.status}</h5>
               <div>
                 <Button
-                  variant="success"
+                  variant="info"
                   value={element.id}
-                  onClick={(e) => tripAcceptHandle(e.target.value)}
+                  onClick={(e) => {
+                    tripAcceptHandle(e.target.value);
+                    setClicked(uuidv4());
+                  }}
                 >
                   Accept
                 </Button>{" "}
                 <Button
+                  variant="success"
+                  value={element.id}
+                  onClick={(e) => {
+                    tripCompletedHandle(e.target.value);
+                    setClicked(uuidv4());
+                  }}
+                >
+                  COMPLETED
+                </Button>{" "}
+                <Button
                   variant="warning"
                   value={element.id}
-                  onClick={(e) => tripDeclineHandle(e.target.value)}
+                  onClick={(e) => {
+                    tripDeclineHandle(e.target.value);
+                    setClicked(uuidv4());
+                  }}
                 >
                   Decline
                 </Button>{" "}
@@ -286,9 +341,7 @@ const BurgerMenu = (props) => {
         <Menu right pageWrapId={"page-wrap"} width={"45%"}>
           <AlertContainer position="top-left">
             {showing.success ? (
-              <Alert type="success">
-                Travel Request sended to Driver!
-              </Alert>
+              <Alert type="success">Travel Request sended to Driver!</Alert>
             ) : null}
 
             {showing.warning ? (
@@ -370,7 +423,7 @@ const BurgerMenu = (props) => {
                 value={element.pk}
                 onClick={(e) => {
                   createTripHandle(e);
-                  onAlertToggle("success")
+                  onAlertToggle("success");
                 }}
               >
                 Send Request

@@ -1,10 +1,29 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
+import ReactStars from "react-rating-stars-component";
 
 const Trips = (props) => {
   const [requests, setRequests] = useState("");
   const [update, setUpdate] = useState();
+  const [show, setShow] = useState(false);
+  const [commentstar, setCommentStar] = useState(4);
 
+  const [prevStar, setprevStar] = useState(4);
+  const handleClose = () => setShow(false);
+  const thirdExample = {
+    size: 40,
+    count: 5,
+    isHalf: false,
+    value: 4,
+    color: "gray",
+    activeColor: "yellow",
+    onChange: (newValue) => {
+      console.log(`Example 3: new value is ${newValue}`);
+      setCommentStar(newValue);
+    },
+  };
+
+  const handleShow = () => setShow(true);
   const deleteTripDetailsHandle = (e) => {
     fetch(
       window.env.BACKEND_URL + "/api/v1/users/delete-trip/" + e.target.value,
@@ -16,9 +35,43 @@ const Trips = (props) => {
       .then((res) => setUpdate(res));
   };
 
+  const handleSaveClose = (e) => {
+    fetch(window.env.BACKEND_URL + "/api/v1/users/user-star/" + e, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setprevStar(data.star);
+      });
+    if (e != null && commentstar != null) {
+
+      setUpdate("comment added");
+      fetch(window.env.BACKEND_URL + "/api/v1/users/user-star/" + e, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          pk: e,
+          star: parseInt((parseFloat(prevStar) + parseFloat(commentstar)) / 2),
+        }),
+      });
+      handleClose();
+    } else {
+      alert("please fill");
+    }
+  };
+
   useEffect(() => {
     fetch(
-      window.env.BACKEND_URL + "/api/v1/users/trips/traveller/" + localStorage.getItem("user_id"),
+      window.env.BACKEND_URL +
+        "/api/v1/users/trips/traveller/" +
+        localStorage.getItem("user_id"),
       {
         method: "GET",
         headers: {
@@ -50,6 +103,30 @@ const Trips = (props) => {
         <div id="carpooling-groups">
           {requests.map((element) => (
             <div key={element.id} id="carpooling-card">
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Give Star for Your Trip</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <h6>Give star for driver ID:{element.driverId}</h6>
+                  <ReactStars {...thirdExample} />
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                  <Button
+                    variant="success"
+                    value={element.driverId}
+                    onClick={(e) => {
+                      console.log(element.givenStar);
+                      handleSaveClose(e.target.value);
+                    }}
+                  >
+                    Give Star to Driver
+                  </Button>
+                </Modal.Footer>
+              </Modal>
               <h3>ID {element.id}</h3>
               <h5>
                 Start Location: {element.startLong} - {element.startLat}
@@ -57,10 +134,16 @@ const Trips = (props) => {
               <h5>
                 End Location: {element.endLong} - {element.endLat}
               </h5>
-              <h5>Star: {element.givenStar}</h5>
-              <h5>Price: {element.price}TL</h5>
-              <h5>Status: {element.status}</h5>
+              <h5>Driver Star (Before Trip): {element.givenStar}</h5>
+              <h5 style={{"display":"flex","textAlign":"center","justifyContent":"center"}}>Price: <h5 style={{"color":"green"}}>{element.price}TL</h5></h5>
               <h5>Driver ID: {element.driverId}</h5>
+              {element.status === "COMPLETED" ? (
+                <Button variant="info" onClick={handleShow}>
+                  Give Star
+                </Button>
+              ) : (
+                <h5>Status: {element.status}</h5>
+              )}
               <Button
                 variant="danger"
                 value={element.id}
