@@ -1,6 +1,6 @@
 from datetime import datetime
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import CarPooling, CustomUser, Trip
+from .models import CarPooling, CustomUser, Shuttle, Trip
 from django.db import transaction
 from rest_framework import serializers
 from rest_auth.registration.serializers import RegisterSerializer
@@ -14,7 +14,7 @@ class UserSerializer(ModelSerializer):
 class UserSettingSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['pk','email','is_driver', 'is_driver','username','first_name','last_name','balance']
+        fields = ['pk','email','is_driver','username','first_name','last_name','balance','hes_code_value']
 
 class CustomRegisterSerializer(RegisterSerializer):
     is_driver = serializers.BooleanField()
@@ -39,7 +39,7 @@ class UserDetailsSerializer(ModelSerializer):
     """
     class Meta:
         model = CustomUser
-        fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name','longitude','latitude','balance','hes_code','star')
+        fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name','longitude','latitude','balance','hes_code','star',"hes_code_value")
         
 class UpdateUserLocation(ModelSerializer):
     """
@@ -91,3 +91,19 @@ class CreateCarPoolGroupSerializer(ModelSerializer):
     class Meta:
         model = CarPooling
         fields = '__all__'
+
+class ShuttleSerializer(ModelSerializer):
+    """
+    Shuttle creation 
+    """
+    class Meta:
+        model = Shuttle
+        fields = '__all__'
+
+class ShuttleUpdateAvaliableSeatSerializer(ModelSerializer):
+    """
+    Shuttle update 
+    """
+    class Meta:
+        model = Shuttle
+        fields = ('pk','remaining_capacity')

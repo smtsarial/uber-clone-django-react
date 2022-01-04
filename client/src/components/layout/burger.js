@@ -41,17 +41,13 @@ const BurgerMenu = (props) => {
   const [userLocLong, setUserLocLong] = useState();
   const [userLocLat, setUserLocLat] = useState();
 
-  const [showing, setShowing] = React.useState({
+  const [showing, setShowing] = useState({
     info: false,
     success: false,
     warning: false,
     danger: false,
   });
 
-  const onAlertToggle = React.useCallback(
-    (type) => setShowing((s) => ({ ...s, [type]: !s[type] })),
-    []
-  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -59,7 +55,13 @@ const BurgerMenu = (props) => {
       if (localStorage.getItem("token") === null) {
         setUserType("");
       } else {
-        fetch(window.env.BACKEND_URL + "/api/v1/users/")
+        fetch(window.env.BACKEND_URL + "/api/v1/users/",{
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+        })
           .then((response) => response.json())
           .then((response) => {
             setAvaliableDrivers(response);
@@ -70,8 +72,7 @@ const BurgerMenu = (props) => {
             "Content-Type": "application/json",
             Authorization: `Token ${localStorage.getItem("token")}`,
           },
-        })
-          .then((res) => res.json())
+        }).then((res) => res.json())
           .then((data) => {
             setTripTravellerId(data.pk);
             setTripStartLang(data.longitude);
@@ -424,7 +425,6 @@ const BurgerMenu = (props) => {
                 value={element.pk}
                 onClick={(e) => {
                   createTripHandle(e);
-                  onAlertToggle("success");
                 }}
               >
                 Send Request

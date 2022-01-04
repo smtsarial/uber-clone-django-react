@@ -3,9 +3,9 @@ from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, U
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, ListModelMixin
 from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
-from .models import CarPooling, CustomUser, Trip
+from .models import CarPooling, CustomUser, Shuttle, Trip
 from datetime import datetime
-from .serializers import CreateCarPoolGroupSerializer, CreateTripSerializer, UpdateUserBudget, UpdateUserCarGroup, UpdateUserLocation, UpdateUserStar, UserSerializer, UserDetailsSerializer, UserSettingSerializer
+from .serializers import CreateCarPoolGroupSerializer, CreateTripSerializer, ShuttleSerializer, ShuttleUpdateAvaliableSeatSerializer, UpdateUserBudget, UpdateUserCarGroup, UpdateUserLocation, UpdateUserStar, UserSerializer, UserDetailsSerializer, UserSettingSerializer
 
 # custom permission class
 
@@ -119,4 +119,20 @@ class CarPoolingGroups(ListModelMixin, CreateModelMixin, GenericAPIView, Destroy
         return self.create(request, *args, **kwargs)
 
 
+# SHUTTLES VIEWS 
+class ShuttleAPIView(ListModelMixin, CreateModelMixin, GenericAPIView, DestroyModelMixin):
+    queryset = Shuttle.objects.all()
+    serializer_class = ShuttleSerializer
 
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    # yaratmak istiyorum
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    
+
+class ShuttleDetailAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Shuttle.objects.all()
+    serializer_class = ShuttleUpdateAvaliableSeatSerializer

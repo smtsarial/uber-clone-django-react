@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -10,6 +11,16 @@ const Dashboard = () => {
   const [useremail, setUseremail] = useState("");
   const [username, setUsername] = useState("");
   const [userdriver, setUserdriver] = useState();
+  const [long, setLong] = useState();
+  const [lat, setLat] = useState();
+  const [userStar, setUserStar] = useState();
+  const [hesCode, setHesCode] = useState("");
+
+  const [update, setUpdate] = useState("");
+  const [balance, setBalance] = useState();
+
+  const [hesCodeValue, sethesCodeValue] = useState();
+
   useEffect(() => {
     if (localStorage.getItem("token") === null) {
       window.location.replace(window.env.FRONTEND_URL + "/login");
@@ -29,39 +40,49 @@ const Dashboard = () => {
           setUserfirstname(data.first_name);
           setUsername(data.username);
           setUserlastname(data.last_name);
-          setUserdriver(String(data.driver));
+          setUserdriver(String(data.is_driver));
+          setHesCode(data.hes_code);
+          setUserStar(data.star);
+          setLat(data.latitude);
+          setLong(data.longitude);
+          setBalance(data.balance);
+          sethesCodeValue(data.hes_code_value)
           setLoading(false);
         });
     }
-  }, []);
+  }, [update]);
 
   const handleChangeUserInfo = (event) => {
-    if (localStorage.getItem("token") === null) {
-      window.location.replace(window.env.FRONTEND_URL + "/login");
-    } else {
-      fetch(window.env.BACKEND_URL + "/api/v1/users/setting/" + userpk, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          pk: userpk,
-          email: useremail,
-          is_driver: Boolean(userdriver),
-          username: username,
-          first_name: userfirstname,
-          last_name: userlastname,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
-    }
+    fetch(window.env.BACKEND_URL + "/api/v1/users/setting/" + userpk, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        pk: userpk,
+        is_driver: userdriver,
+        username: username,
+        email: useremail,
+        first_name: userfirstname,
+        last_name: userlastname,
+        balance: balance,
+        hes_code: hesCode,
+        star: userStar,
+        hes_code_value: hesCodeValue,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+
+        window.location.replace(window.env.FRONTEND_URL + "/settings");
+      });
   };
   /////////////////
   const handleUserTypeChange = (event) => {
     console.log(event.target.value);
-    console.log(userfirstname)
+    console.log(userfirstname);
     if (event.target.value === "true") {
       setUserdriver(true);
     } else {
@@ -129,24 +150,69 @@ const Dashboard = () => {
                   placeholder={username}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  disabled
+                />
+              </div>
+            </label>
+            <label>
+              HES Code 
+              <div>
+                <input
+                  type="text"
+                  name="hesCodeValue"
+                  placeholder={hesCodeValue}
+                  value={hesCodeValue}
+                  onChange={(e) => sethesCodeValue(e.target.value)}
+                  maxLength={12}
+                />
+              </div>
+            </label>
+            <label>
+              HES Code Status
+              <div>
+                <input
+                  type="text"
+                  name="hes_code"
+                  placeholder={hesCode}
+                  value={hesCode}
+                  onChange={(e) => setHesCode(e.target.value)}
+                  disabled
+                />
+              </div>
+            </label>
+            <label>
+              Balance
+              <div>
+                <input
+                  type="text"
+                  name="balance"
+                  placeholder={balance}
+                  value={balance}
+                  onChange={(e) => setBalance(e.target.value)}
+                  disabled
                 />
               </div>
             </label>
             <label>
               User Type
               <div>
-                <select defaultValue={String(userdriver)} onChange={handleUserTypeChange}>
+                <select
+                  defaultValue={String(userdriver)}
+                  onChange={handleUserTypeChange}
+                >
                   <option value={true}>Driver</option>
                   <option value={false}>Traveller</option>
                 </select>
               </div>
             </label>
-
-            <input
-              type="submit"
-              value="Save Account Information"
-              onClick={handleChangeUserInfo}
-            />
+            <Button
+              variant="warning"
+              onClick={(e) => {
+                handleChangeUserInfo();
+              }}
+            >
+              Save Account Information
+            </Button>
           </form>
           <div>
             <p>or</p>

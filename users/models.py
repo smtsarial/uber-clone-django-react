@@ -21,8 +21,23 @@ class CustomUser(AbstractUser):
     registeredCarGroup = models.IntegerField(default=0)
     hes_code = models.CharField(max_length=12,default="PENDING",choices=HES_CHOICES)
     hes_code_value = models.CharField(max_length=12,default="")
+
     def __str__(self):
         return self.email
+
+class Shuttle(models.Model):
+    startLong= models.FloatField(default=40.0550272)
+    endLong= models.FloatField(default=40.0550272)
+    startLat= models.FloatField(default=40.0550272)
+    endLat= models.FloatField(default=40.0550272)
+    shuttle_name = models.CharField(max_length=255)
+    price = models.FloatField(default=1.5)
+    start_time = models.CharField(max_length=5,default="13:00")
+    remaining_capacity = models.PositiveIntegerField(default=20)
+    shuttle_plate = models.CharField(max_length=9)
+
+    def __str__(self):
+        return self.shuttle_name
 
 
 class Trip(models.Model):
