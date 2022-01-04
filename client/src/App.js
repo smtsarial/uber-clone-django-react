@@ -10,7 +10,7 @@ import Settings from "./views/app/settings";
 import CarPooling from "./views/app/carpooling";
 import Trips from './views/app/trips';
 import Restriction from './views/app/Restriction';
-
+import Shuttle from './views/app/Shuttle'
 const App = () => {
   return (
     <div className="App">
@@ -28,6 +28,7 @@ const App = () => {
           <Route path="/traveller" component={Traveller} exact />
           <Route path="/trips" component={Trips} exact />
           <Route path="/restriction" component={Restriction} exact />
+          <Route path="/shuttles" component={Shuttle} exact />
         </Switch>
       </Router>
     </div>

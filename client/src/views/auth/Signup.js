@@ -109,6 +109,7 @@ const Signup = () => {
           value={hes_code}
           onChange={(e) => setHesCode(e.target.value)}
           required
+          maxLength={12}
         />{" "}
         <br />
         <label htmlFor="password1">Password:</label> <br />

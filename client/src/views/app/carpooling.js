@@ -146,7 +146,7 @@ const CarPooling = (props) => {
           .map((element) => (
             <div key={element.id} id="carpooling-card">
               <h3>Group Name: {element.groupName}</h3>
-              <h3>PPP: {element.ppp}</h3>
+              <h3>PPP: {element.ppp} TL</h3>
               <h4>Whatsapp Link: {element.wplink}</h4>
               <h4>Start Time: {element.start_time}</h4>
             </div>
@@ -234,7 +234,7 @@ const CarPooling = (props) => {
             <h3>Group Name: {element.groupName}</h3>
             <h4>Whatsapp Link: {element.wplink}</h4>
             <h4>Start Time: {element.start_time}</h4>
-            <h3>PPP: {element.ppp}</h3>
+            <h3>PPP: {element.ppp} TL</h3>
             <Button
               value={element.id}
               variant="success"
