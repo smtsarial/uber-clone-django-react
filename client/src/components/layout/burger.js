@@ -417,7 +417,8 @@ const BurgerMenu = (props) => {
                 Driver Name: {element.first_name} {element.last_name}
               </h5>
               <h5>Car Type: VAN</h5>
-              <h5>Driver Star: 5</h5>
+              <h5>HES Code: {element.hes_code}</h5>
+              <h5>Driver Star: {element.star}</h5>
               <Button
                 variant="success"
                 value={element.pk}

@@ -18,12 +18,17 @@ class UserSettingSerializer(ModelSerializer):
 
 class CustomRegisterSerializer(RegisterSerializer):
     is_driver = serializers.BooleanField()
-
+    hes_code_value = serializers.CharField(max_length=12)
+    first_name = serializers.CharField(max_length=255)
+    last_name = serializers.CharField(max_length=255)
     # Define transaction.atomic to rollback the save operation in case of error
     @transaction.atomic
     def save(self, request):
         user = super().save(request)
         user.is_driver = self.data.get('is_driver')
+        user.hes_code_value = self.data.get('hes_code_value')
+        user.first_name = self.data.get('first_name')
+        user.last_name = self.data.get('last_name')
         user.save()
         return user
 
@@ -34,7 +39,7 @@ class UserDetailsSerializer(ModelSerializer):
     """
     class Meta:
         model = CustomUser
-        fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name','longitude','latitude','balance')
+        fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name','longitude','latitude','balance','hes_code','star')
         
 class UpdateUserLocation(ModelSerializer):
     """

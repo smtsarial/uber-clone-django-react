@@ -6,9 +6,10 @@ import Logout from "./views/auth/Logout";
 import Dashboard from "./views/app/Dashboard";
 import Driver from "./views/app/driver";
 import Traveller from "./views/app/traveller";
-import Settings from "./views/app/settings"
-import CarPooling from "./views/app/carpooling"
-import Trips from './views/app/trips'
+import Settings from "./views/app/settings";
+import CarPooling from "./views/app/carpooling";
+import Trips from './views/app/trips';
+import Restriction from './views/app/Restriction';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/driver" component={Driver} exact />
           <Route path="/traveller" component={Traveller} exact />
           <Route path="/trips" component={Trips} exact />
+          <Route path="/restriction" component={Restriction} exact />
         </Switch>
       </Router>
     </div>

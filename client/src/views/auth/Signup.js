@@ -8,6 +8,11 @@ const Signup = () => {
   const [errors, setErrors] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+
+  const [hes_code, setHesCode] = useState("");
+
   useEffect(() => {
     if (localStorage.getItem("token") !== null) {
       window.location.replace(window.env.FRONTEND_URL + "/dashboard");
@@ -18,12 +23,15 @@ const Signup = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    
+
     const user = {
-      "email": email,
-      "password1": password1,
-      "password2": password2,
-      "is_driver": is_driver,
+      email: email,
+      password1: password1,
+      password2: password2,
+      is_driver: is_driver,
+      hes_code_value: hes_code,
+      first_name: first_name,
+      last_name: last_name,
     };
 
     fetch(window.env.BACKEND_URL + "/api/v1/users/auth/register/", {
@@ -44,6 +52,9 @@ const Signup = () => {
           setPassword1("");
           setPassword2("");
           setIs_driver(false);
+          setFirstName("");
+          setLastName("");
+          setHesCode("");
           localStorage.clear();
           setErrors(true);
         }
@@ -52,9 +63,9 @@ const Signup = () => {
 
   const changeUsageStatus = (event) => {
     console.log(event.target.value);
-    if (event.target.value === "traveller"){
+    if (event.target.value === "traveller") {
       setIs_driver(false);
-    }else{
+    } else {
       setIs_driver(true);
     }
   };
@@ -64,12 +75,39 @@ const Signup = () => {
       {loading === false && <h1>Signup</h1>}
       {errors === true && <h2>Cannot signup with provided credentials</h2>}
       <form onSubmit={onSubmit}>
+      <label htmlFor="first_name">First Name:</label> <br />
+        <input
+          name="first_name"
+          type="text"
+          value={first_name}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />{" "}
+        <br />
+        <label htmlFor="last_name">Last Name:</label> <br />
+        <input
+          name="last_name"
+          type="text"
+          value={last_name}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />{" "}
+        <br />
         <label htmlFor="email">Email address:</label> <br />
         <input
           name="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
+        />{" "}
+        <br />
+        <label htmlFor="hes_code">HES Code:</label> <br />
+        <input
+          name="hes_code"
+          type="text"
+          value={hes_code}
+          onChange={(e) => setHesCode(e.target.value)}
           required
         />{" "}
         <br />

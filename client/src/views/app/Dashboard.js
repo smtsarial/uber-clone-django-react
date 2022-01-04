@@ -17,11 +17,21 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          localStorage.setItem("user_id", data.pk)
-          if (data.is_driver == true) {
-            window.location.replace(window.env.FRONTEND_URL + "/driver");
+          console.log(data.hes_code);
+          if (data.hes_code === "PENDING") {
+            localStorage.clear();
+            window.location.replace(window.env.FRONTEND_URL + "/restriction");
+          } else if (data.hes_code === "ACCEPTED") {
+            if (data.is_driver == true) {
+              localStorage.setItem("user_id", data.pk);
+              window.location.replace(window.env.FRONTEND_URL + "/driver");
+            } else {
+              localStorage.setItem("user_id", data.pk);
+              window.location.replace(window.env.FRONTEND_URL + "/traveller");
+            }
           } else {
-            window.location.replace(window.env.FRONTEND_URL + "/traveller");
+            localStorage.clear();
+            window.location.replace(window.env.FRONTEND_URL + "/restriction");
           }
           setLoading(false);
         });

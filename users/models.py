@@ -2,6 +2,13 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+HES_CHOICES = (
+    ('ACCEPTED','ACCEPTED'),
+    ('PENDING', 'PENDING'),
+    ('RISK','RISK'),
+)
+
+
 class CustomUser(AbstractUser):
     is_driver = models.BooleanField(default=False)
     star = models.PositiveIntegerField(
@@ -12,7 +19,8 @@ class CustomUser(AbstractUser):
     longitude = models.FloatField(default=29.0848768)
     balance = models.FloatField(default=9999.0)
     registeredCarGroup = models.IntegerField(default=0)
-
+    hes_code = models.CharField(max_length=12,default="PENDING",choices=HES_CHOICES)
+    hes_code_value = models.CharField(max_length=12,default="")
     def __str__(self):
         return self.email
 
@@ -34,7 +42,7 @@ class Trip(models.Model):
 class CarPooling(models.Model):
     groupName=  models.CharField(max_length=255)
     wplink =  models.CharField(max_length=255)
-    
+    ppp = models.FloatField(default=0)
     start_time =  models.CharField(max_length=5, default="00:00")
     member_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="traveller1")
     creator_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="creator")

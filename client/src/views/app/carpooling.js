@@ -11,6 +11,7 @@ const CarPooling = (props) => {
   const [registeredGroup, SetregisteredGroup] = useState();
   const [registeredGroupList, SetregisteredGroupList] = useState();
   const [start_time, setStart_time] = useState("");
+  const [ppp,setPpp] = useState("");
 
   useEffect(() => {
     if (localStorage.getItem("token") === null) {
@@ -56,6 +57,7 @@ const CarPooling = (props) => {
         member_id: localStorage.getItem("user_id"),
         creator_id: localStorage.getItem("user_id"),
         start_time: start_time,
+        ppp: ppp,
       };
 
       fetch(window.env.BACKEND_URL + "/api/v1/users/carpooling/", {
@@ -144,6 +146,7 @@ const CarPooling = (props) => {
           .map((element) => (
             <div key={element.id} id="carpooling-card">
               <h3>Group Name: {element.groupName}</h3>
+              <h3>PPP: {element.ppp}</h3>
               <h4>Whatsapp Link: {element.wplink}</h4>
               <h4>Start Time: {element.start_time}</h4>
             </div>
@@ -177,6 +180,17 @@ const CarPooling = (props) => {
                   name="wp_link"
                   placeholder="Whatsapp Link"
                   onChange={(e) => setWpLink(e.target.value)}
+                />
+              </div>
+            </label>
+            <label>
+              PPP Price Per Person
+              <div>
+                <input
+                  type="number"
+                  name="ppp"
+                  placeholder="PPP Price Per Person"
+                  onChange={(e) => setPpp(e.target.value)}
                 />
               </div>
             </label>
@@ -220,6 +234,7 @@ const CarPooling = (props) => {
             <h3>Group Name: {element.groupName}</h3>
             <h4>Whatsapp Link: {element.wplink}</h4>
             <h4>Start Time: {element.start_time}</h4>
+            <h3>PPP: {element.ppp}</h3>
             <Button
               value={element.id}
               variant="success"
