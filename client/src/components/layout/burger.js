@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
-import { Alert, AlertContainer } from "react-bs-notifier";
 
 function calcCrow(lat1, lon1, lat2, lon2) {
   var R = 6371; // km
@@ -40,14 +39,13 @@ const BurgerMenu = (props) => {
   const [clicked, setClicked] = useState();
   const [userLocLong, setUserLocLong] = useState();
   const [userLocLat, setUserLocLat] = useState();
+  const [tripPrice,setTripPrice] = useState();
+  const [createdAlert, setCreatedAlert] = useState("");
+  
 
-  const [showing, setShowing] = useState({
-    info: false,
-    success: false,
-    warning: false,
-    danger: false,
-  });
-
+  const handleCreatedAlert = (username)=>{
+    setCreatedAlert(<h5 style={{ color: "red", textAlign: "center" }}>Request sent to {username}</h5>)
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -239,7 +237,8 @@ const BurgerMenu = (props) => {
       TripStartLat,
       TripEndLong,
       TripEndLat
-    ).toFixed(1);
+    ).toFixed(2);
+    setTripPrice(price);
     const trip = {
       startLong: TripStartLang,
       endLong: TripEndLong,
@@ -251,7 +250,6 @@ const BurgerMenu = (props) => {
       driverId: TripDriverId,
       travellerId: TripTravellerId,
     };
-    console.log(trip);
 
     fetch(window.env.BACKEND_URL + "/api/v1/users/create-trip", {
       method: "POST",
@@ -340,17 +338,7 @@ const BurgerMenu = (props) => {
     if (avaliableDrivers.length !== 0) {
       return (
         <Menu right pageWrapId={"page-wrap"} width={"45%"}>
-          <AlertContainer position="top-left">
-            {showing.success ? (
-              <Alert type="success">Travel Request sended to Driver!</Alert>
-            ) : null}
-
-            {showing.warning ? (
-              <Alert type="warning">
-                Something bad may be about to happen.
-              </Alert>
-            ) : null}
-          </AlertContainer>
+          
           <h1 style={{ fontSize: "35px", textAlign: "center" }}>
             Avaliable Drivers
           </h1>
@@ -361,6 +349,7 @@ const BurgerMenu = (props) => {
           >
             All Requests
           </Link>
+          {createdAlert}
           <span>
             <h3 style={{ textAlign: "center" }}>Destination</h3>
             <div
@@ -417,18 +406,21 @@ const BurgerMenu = (props) => {
               <h5>
                 Driver Name: {element.first_name} {element.last_name}
               </h5>
-              <h5>Car Type: VAN</h5>
+              <h5>Car Type: {element.cartype}</h5>
               <h5>HES Code: {element.hes_code}</h5>
               <h5>Driver Star: {element.star}</h5>
-              <Button
+
+              <h5>Driver ID: {element.pk}</h5>
+              {element.car_type.length !== 0 ? (<Button
                 variant="success"
                 value={element.pk}
                 onClick={(e) => {
                   createTripHandle(e);
+                  handleCreatedAlert(element.username);
                 }}
               >
                 Send Request
-              </Button>{" "}
+              </Button>):<h5 style={{"color":"red"}}>Driver has no car type!</h5>}
             </div>
           ))}
         </Menu>

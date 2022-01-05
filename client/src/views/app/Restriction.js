@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import Loading from "./Loading";
+import React, { useEffect } from "react";
 
 const Restriction = (props) => {
-  const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetch(window.env.BACKEND_URL + "/api/v1/users/auth/user/", {
       method: "GET",
@@ -16,7 +14,7 @@ const Restriction = (props) => {
         if (data.hes_code === "PENDING") {
           localStorage.clear();
         } else if (data.hes_code === "ACCEPTED") {
-          if (data.is_driver == true) {
+          if (data.is_driver === true) {
             localStorage.setItem("user_id", data.pk);
             window.location.replace(window.env.FRONTEND_URL + "/driver");
           } else {
@@ -26,7 +24,6 @@ const Restriction = (props) => {
         } else {
           localStorage.clear();
         }
-        setLoading(false);
       });
   }, []);
   return (

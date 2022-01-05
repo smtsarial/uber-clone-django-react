@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
 
@@ -48,7 +48,6 @@ const Trips = (props) => {
         setprevStar(data.star);
       });
     if (e != null && commentstar != null) {
-
       setUpdate("comment added");
       fetch(window.env.BACKEND_URL + "/api/v1/users/user-star/" + e, {
         method: "PUT",
@@ -119,7 +118,6 @@ const Trips = (props) => {
                     variant="success"
                     value={element.driverId}
                     onClick={(e) => {
-                      console.log(element.givenStar);
                       handleSaveClose(e.target.value);
                     }}
                   >
@@ -135,16 +133,26 @@ const Trips = (props) => {
                 End Location: {element.endLong} - {element.endLat}
               </h5>
               <h5>Driver Star (Before Trip): {element.givenStar}</h5>
-              <h5 style={{"display":"flex","textAlign":"center","justifyContent":"center"}}>Price: <h5 style={{"color":"green"}}>{element.price}TL</h5></h5>
+              <h5
+                style={{
+                  display: "flex",
+                  textAlign: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Price: <h5 style={{ color: "green" }}>{element.price}TL</h5>
+              </h5>
               <h5>Driver ID: {element.driverId}</h5>
               {element.status === "COMPLETED" ? (
-                <Button variant="info" onClick={handleShow}>
-                  Give Star
-                </Button>
+                <div>
+                  <h5>Status: {element.status}</h5>
+                  <Button variant="info" onClick={handleShow}>
+                    Give Star
+                  </Button>
+                </div>
               ) : (
-                <h5>Status: {element.status}</h5>
-              )}
-              <Button
+                <div><h5>Status: {element.status}</h5>
+                <Button
                 variant="danger"
                 value={element.id}
                 onClick={(e) => {
@@ -152,7 +160,9 @@ const Trips = (props) => {
                 }}
               >
                 Delete
-              </Button>{" "}
+              </Button>{" "}</div>
+              )}
+              
               <hr></hr>
             </div>
           ))}

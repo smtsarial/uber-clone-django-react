@@ -22,7 +22,7 @@ const Dashboard = () => {
             localStorage.clear();
             window.location.replace(window.env.FRONTEND_URL + "/restriction");
           } else if (data.hes_code === "ACCEPTED") {
-            if (data.is_driver == true) {
+            if (data.is_driver === true) {
               localStorage.setItem("user_id", data.pk);
               window.location.replace(window.env.FRONTEND_URL + "/driver");
             } else {

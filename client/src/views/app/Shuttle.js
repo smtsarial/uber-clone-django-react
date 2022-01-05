@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Loading from "./Loading";
 
-import { Button, Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 const Shuttle = (props) => {
-  const [loading, setLoading] = useState(true);
   const [shuttles, setShuttles] = useState([]);
+  const [update, setUpdate] = useState("");
   useEffect(() => {
     fetch(window.env.BACKEND_URL + "/api/v1/users/auth/user/", {
       method: "GET",
@@ -16,13 +15,12 @@ const Shuttle = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.is_driver == true) {
+        if (data.is_driver === true) {
           localStorage.setItem("user_id", data.pk);
           window.location.replace(window.env.FRONTEND_URL + "/driver");
         } else {
           localStorage.setItem("user_id", data.pk);
         }
-        setLoading(false);
       });
     fetch(window.env.BACKEND_URL + "/api/v1/users/shuttles/", {
       method: "GET",
@@ -33,16 +31,15 @@ const Shuttle = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setShuttles(data);
       });
-  }, []);
+  }, [update]);
 
   const handleSubmit = (value,prevCapacity) => {
     console.log(prevCapacity);
     fetch(
       window.env.BACKEND_URL +
-        "/api/v1/users/shuttle/1" +value,
+        "/api/v1/users/shuttle/" +value,
       {
         method: "PUT",
         headers: {
@@ -55,6 +52,7 @@ const Shuttle = (props) => {
         }),
       }
     );
+    setUpdate(prevCapacity)
   };
 
   return (<div>
@@ -79,7 +77,7 @@ const Shuttle = (props) => {
           <h4>
             End Coordinates: {element.endLong}-{element.endLat}
           </h4>
-          <h4>Remaining Capacity: {element.remaining_capacity} Person</h4>
+          <h4>Remaining Capacity: {element.remaining_capacity} Seat</h4>
           <h4>Price: {element.price}</h4>
           <h4>Time: {element.start_time}</h4>
           <Button
