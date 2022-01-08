@@ -27,12 +27,13 @@ const Navbar = () => {
           setUserBudget(data.balance);
           if (data.is_driver === false) {
             setUserType("Traveller");
+            console.log(userBudget);  
           } else {
             setUserType("Driver");
           }
         });
     }
-  }, []);
+  });
 
   
     if(userType === 'Driver'){

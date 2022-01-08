@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [userStar, setUserStar] = useState();
   const [hesCode, setHesCode] = useState("");
 
+  const [cartype, setCartype] = useState("");
   const [update, setUpdate] = useState("");
   const [balance, setBalance] = useState();
 
@@ -46,7 +47,8 @@ const Dashboard = () => {
           setLat(data.latitude);
           setLong(data.longitude);
           setBalance(data.balance);
-          sethesCodeValue(data.hes_code_value)
+          sethesCodeValue(data.hes_code_value);
+          setCartype(data.car_type);
           setLoading(false);
         });
     }
@@ -70,6 +72,7 @@ const Dashboard = () => {
         hes_code: hesCode,
         star: userStar,
         hes_code_value: hesCodeValue,
+        car_type : cartype
       }),
     })
       .then((res) => res.json())
@@ -81,8 +84,6 @@ const Dashboard = () => {
   };
   /////////////////
   const handleUserTypeChange = (event) => {
-    console.log(event.target.value);
-    console.log(userfirstname);
     if (event.target.value === "true") {
       setUserdriver(true);
     } else {
@@ -97,7 +98,6 @@ const Dashboard = () => {
       <div id="settings">
         <div className="settings-form-card">
           <h1>Account Information</h1>
-
           <form className="settings-form">
             <label>
               ID
@@ -181,6 +181,20 @@ const Dashboard = () => {
               </div>
             </label>
             <label>
+              Car Type
+              <div>
+                <input
+                  type="text"
+                  name="hes_code"
+                  placeholder={cartype}
+                  value={cartype}
+                  onChange={(e) => setCartype(e.target.value)}
+                />
+              </div>
+            </label>
+
+          <h6 style={{"color":"red"}}>Please fill the car type field for taking request!</h6>
+            <label>
               Balance
               <div>
                 <input
@@ -188,6 +202,7 @@ const Dashboard = () => {
                   name="balance"
                   placeholder={balance}
                   value={balance}
+                  maxLength={15}
                   onChange={(e) => setBalance(e.target.value)}
                   disabled
                 />

@@ -14,7 +14,7 @@ class UserSerializer(ModelSerializer):
 class UserSettingSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['pk','email','is_driver','username','first_name','last_name','balance','hes_code_value']
+        fields = ['pk','email','is_driver','username','first_name','last_name','balance','hes_code_value','car_type']
 
 class CustomRegisterSerializer(RegisterSerializer):
     is_driver = serializers.BooleanField()
@@ -39,7 +39,7 @@ class UserDetailsSerializer(ModelSerializer):
     """
     class Meta:
         model = CustomUser
-        fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name','longitude','latitude','balance','hes_code','star',"hes_code_value")
+        fields = ('pk', 'is_driver','username', 'email', 'first_name', 'last_name','longitude','latitude','balance','hes_code','star',"hes_code_value","car_type")
         
 class UpdateUserLocation(ModelSerializer):
     """

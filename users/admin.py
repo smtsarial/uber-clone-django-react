@@ -31,9 +31,9 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['email','is_active','is_driver','pk',"hes_code"]
+    list_display = ['email','is_active','is_driver','pk',"hes_code","car_type"]
     fieldsets = (
-        (('User'), {'fields': ('is_driver','username', 'email', 'first_name', 'last_name','longitude','latitude','balance','hes_code_value','hes_code')}),
+        (('User'), {'fields': ('is_driver','username', 'email', 'first_name', 'last_name','longitude','latitude','balance','hes_code_value','hes_code','car_type')}),
     )
 
 class ShuttleAdmin(admin.ModelAdmin):
