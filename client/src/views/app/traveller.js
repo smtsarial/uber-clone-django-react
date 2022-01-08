@@ -113,9 +113,9 @@ export default class Traveller extends Component {
                 icon={covidIcon}
               >
                 <Popup>
-                  <b>Driver username:</b> {marker.username} <br></br>{" "}
+                  <b>Driver Username:</b> {marker.username} <br></br>{" "}
                   <b>Email:</b> {marker.email}
-                  <br></br> <b>İsim Soyisim:</b> {marker.first_name}{" "}
+                  <br></br> <b>Name Surname:</b> {marker.first_name}{" "}
                   {marker.last_name}
                 </Popup>
               </Marker>

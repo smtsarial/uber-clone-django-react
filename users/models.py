@@ -21,8 +21,9 @@ class CustomUser(AbstractUser):
     registeredCarGroup = models.IntegerField(default=0)
     hes_code = models.CharField(max_length=12,default="PENDING",choices=HES_CHOICES)
     hes_code_value = models.CharField(max_length=12,default="")
-    car_type = models.CharField(max_length=15,default="")
-
+    car_type = models.CharField(max_length=15,null=True,blank=True)
+    registeredShuttleId = models.IntegerField(default=0)
+    
     def __str__(self):
         return self.email
 

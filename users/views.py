@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from .models import CarPooling, CustomUser, Shuttle, Trip
 from datetime import datetime
-from .serializers import CreateCarPoolGroupSerializer, CreateTripSerializer, ShuttleSerializer, ShuttleUpdateAvaliableSeatSerializer, UpdateUserBudget, UpdateUserCarGroup, UpdateUserLocation, UpdateUserStar, UserSerializer, UserDetailsSerializer, UserSettingSerializer
+from .serializers import CreateCarPoolGroupSerializer, CreateTripSerializer, ShuttleSerializer, ShuttleUpdateAvaliableSeatSerializer, UpdateShuttleRegistered, UpdateUserBudget, UpdateUserCarGroup, UpdateUserLocation, UpdateUserStar, UserSerializer, UserDetailsSerializer, UserSettingSerializer
 
 # custom permission class
 
@@ -136,3 +136,9 @@ class ShuttleAPIView(ListModelMixin, CreateModelMixin, GenericAPIView, DestroyMo
 class ShuttleDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Shuttle.objects.all()
     serializer_class = ShuttleUpdateAvaliableSeatSerializer
+
+
+class ShuttleGroupAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UpdateShuttleRegistered
+    permission_classes = [IsOwnOrReadOnly]

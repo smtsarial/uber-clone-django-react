@@ -39,62 +39,55 @@ const BurgerMenu = (props) => {
   const [clicked, setClicked] = useState();
   const [userLocLong, setUserLocLong] = useState();
   const [userLocLat, setUserLocLat] = useState();
-  const [tripPrice,setTripPrice] = useState();
+  const [tripPrice, setTripPrice] = useState();
   const [createdAlert, setCreatedAlert] = useState("");
-  
-
-  const handleCreatedAlert = (username)=>{
-    setCreatedAlert(<h5 style={{ color: "red", textAlign: "center" }}>Request sent to {username}</h5>)
-  }
 
   useEffect(() => {
-    setTimeout(() => {
-
-      if (localStorage.getItem("token") === null) {
-        setUserType("");
-      } else {
-        fetch(window.env.BACKEND_URL + "/api/v1/users/",{
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${localStorage.getItem("token")}`,
-          },
-        })
-          .then((response) => response.json())
-          .then((response) => {
-            setAvaliableDrivers(response);
-          });
-        fetch(window.env.BACKEND_URL + "/api/v1/users/auth/user/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${localStorage.getItem("token")}`,
-          },
-        }).then((res) => res.json())
-          .then((data) => {
-            setTripTravellerId(data.pk);
-            setTripStartLang(data.longitude);
-            setTripStartLat(data.latitude);
-            setPreBudget(data.balance);
-            setUserLocLong(data.longitude);
-            setUserLocLat(data.latitude);
-            if (data.is_driver === false) {
-              setUserType("Traveller");
-            } else {
-              setUserType("Driver");
-            }
-          });
-        fetch(
-          window.env.BACKEND_URL +
-            "/api/v1/users/trips/driver/" +
-            localStorage.getItem("user_id")
-        )
-          .then((response) => response.json())
-          .then((response) => {
-            setTravellerRequests(response);
-          });
-      }
-    }, 500);
+    if (localStorage.getItem("token") === null) {
+      setUserType("");
+    } else {
+      fetch(window.env.BACKEND_URL + "/api/v1/users/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          setAvaliableDrivers(response);
+        });
+      fetch(window.env.BACKEND_URL + "/api/v1/users/auth/user/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setTripTravellerId(data.pk);
+          setTripStartLang(data.longitude);
+          setTripStartLat(data.latitude);
+          setPreBudget(data.balance);
+          setUserLocLong(data.longitude);
+          setUserLocLat(data.latitude);
+          if (data.is_driver === false) {
+            setUserType("Traveller");
+          } else {
+            setUserType("Driver");
+          }
+        });
+      fetch(
+        window.env.BACKEND_URL +
+          "/api/v1/users/trips/driver/" +
+          localStorage.getItem("user_id")
+      )
+        .then((response) => response.json())
+        .then((response) => {
+          setTravellerRequests(response);
+        });
+    }
   }, [clicked]);
 
   const tripCompletedHandle = (e) => {
@@ -229,9 +222,9 @@ const BurgerMenu = (props) => {
     }
   };
 
-  const createTripHandle = (e) => {
+  const createTripHandle = (e, username) => {
     //IT CREATES TRIP FOR TRAVELLER HANDLER
-    setTripDriverId(e.target.value);
+
     var price = calcCrow(
       TripStartLang,
       TripStartLat,
@@ -239,27 +232,42 @@ const BurgerMenu = (props) => {
       TripEndLat
     ).toFixed(2);
     setTripPrice(price);
-    const trip = {
-      startLong: TripStartLang,
-      endLong: TripEndLong,
-      startLat: TripStartLat,
-      endLat: TripEndLat,
-      givenStar: 1,
-      price: price,
-      status: "pending",
-      driverId: TripDriverId,
-      travellerId: TripTravellerId,
-    };
-
-    fetch(window.env.BACKEND_URL + "/api/v1/users/create-trip", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(trip),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    
+    if(preBudget < price){
+      setCreatedAlert(
+        <h5 style={{ color: "red", textAlign: "center" }}>
+          No budget for this trip
+        </h5>
+      )
+    }else{
+      const trip = {
+        startLong: TripStartLang,
+        endLong: TripEndLong,
+        startLat: TripStartLat,
+        endLat: TripEndLat,
+        givenStar: 1,
+        price: price,
+        status: "pending",
+        driverId: TripDriverId,
+        travellerId: TripTravellerId,
+      };
+  
+      fetch(window.env.BACKEND_URL + "/api/v1/users/create-trip", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(trip),
+      })
+        .then((res) => res.json())
+        .then((data) =>
+          setCreatedAlert(
+            <h5 style={{ color: "red", textAlign: "center" }}>
+              Request sent to {username}
+            </h5>
+          )
+        );
+    }
   };
 
   if (userType === "Driver") {
@@ -269,12 +277,26 @@ const BurgerMenu = (props) => {
           <h1 key="asfasf" style={{ fontSize: "35px", textAlign: "center" }}>
             Traveller Requests
           </h1>
-          <h6
-            key="asfasf"
-            style={{ fontSize: "25px", textAlign: "center", color: "green" }}
-          >
-            Budget: {preBudget} TL
-          </h6>
+          <div>
+            <h6
+              key="asfasf"
+              style={{ fontSize: "25px", textAlign: "center", color: "green" }}
+            >
+              Budget: {preBudget} TL
+            </h6>
+            <Button
+              style={{
+                textAlign: "center",
+              }}
+              variant="success"
+              value={uuidv4()}
+              onClick={(e) => {
+                setClicked(e.target.value);
+              }}
+            >
+              Refresh
+            </Button>
+          </div>
           {travellerRequests.map((element) => (
             <div key={uuidv4()} id="carpooling-card">
               <h4>Trip ID: {element.id}</h4>
@@ -338,7 +360,6 @@ const BurgerMenu = (props) => {
     if (avaliableDrivers.length !== 0) {
       return (
         <Menu right pageWrapId={"page-wrap"} width={"45%"}>
-          
           <h1 style={{ fontSize: "35px", textAlign: "center" }}>
             Avaliable Drivers
           </h1>
@@ -349,9 +370,25 @@ const BurgerMenu = (props) => {
           >
             All Requests
           </Link>
+
           {createdAlert}
           <span>
-            <h3 style={{ textAlign: "center" }}>Destination</h3>
+            <div>
+              <h3 style={{ textAlign: "center" }}>Destination</h3>
+              <Button
+                style={{
+                  textAlign: "center",
+                }}
+                variant="success"
+                value={uuidv4()}
+                onClick={(e) => {
+                  setClicked(e.target.value);
+                }}
+              >
+                Refresh
+              </Button>
+
+            </div>
             <div
               style={{
                 display: "flex",
@@ -396,7 +433,10 @@ const BurgerMenu = (props) => {
                   />
                 </div>
               </label>
+
             </div>
+            <p>İstanbul Medipol University Coordinates :<br></br> 41.09101684961034, 29.092565035853283</p>
+
           </span>
 
           {avaliableDrivers.map((element) => (
@@ -411,16 +451,20 @@ const BurgerMenu = (props) => {
               <h5>Driver Star: {element.star}</h5>
 
               <h5>Driver ID: {element.pk}</h5>
-              {element.car_type.length !== 0 ? (<Button
-                variant="success"
-                value={element.pk}
-                onClick={(e) => {
-                  createTripHandle(e);
-                  handleCreatedAlert(element.username);
-                }}
-              >
-                Send Request
-              </Button>):<h5 style={{"color":"red"}}>Driver has no car type!</h5>}
+              {element.car_type.length !== 0 ? (
+                <Button
+                  variant="success"
+                  value={element.pk}
+                  onClick={(e) => {
+                    setTripDriverId(e.target.value);
+                    createTripHandle(e, element.username);
+                  }}
+                >
+                  Send Request
+                </Button>
+              ) : (
+                <h5 style={{ color: "red" }}>Driver has no car type!</h5>
+              )}
             </div>
           ))}
         </Menu>

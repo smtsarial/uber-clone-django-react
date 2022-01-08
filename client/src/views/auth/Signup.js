@@ -130,11 +130,7 @@ const Signup = () => {
           required
         />{" "}
         <br />
-        <select onChange={changeUsageStatus}>
-          <option value="driver">Driver</option>
-          <option value="traveller">Traveller</option>
-        </select>
-        <br />
+        
         <input type="submit" value="Signup" />
       </form>
     </div>

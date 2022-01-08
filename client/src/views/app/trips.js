@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import ReactStars from "react-rating-stars-component";
 
+import { v4 as uuidv4 } from "uuid";
+
 const Trips = (props) => {
   const [requests, setRequests] = useState("");
   const [update, setUpdate] = useState();
@@ -100,6 +102,18 @@ const Trips = (props) => {
         </h1>
 
         <div id="carpooling-groups">
+          <Button
+            style={{
+              textAlign: "center",
+            }}
+            variant="success"
+            value={uuidv4()}
+            onClick={(e) => {
+              setUpdate(e.target.value);
+            }}
+          >
+            Refresh
+          </Button>
           {requests.map((element) => (
             <div key={element.id} id="carpooling-card">
               <Modal show={show} onHide={handleClose}>
@@ -151,18 +165,20 @@ const Trips = (props) => {
                   </Button>
                 </div>
               ) : (
-                <div><h5>Status: {element.status}</h5>
-                <Button
-                variant="danger"
-                value={element.id}
-                onClick={(e) => {
-                  deleteTripDetailsHandle(e);
-                }}
-              >
-                Delete
-              </Button>{" "}</div>
+                <div>
+                  <h5>Status: {element.status}</h5>
+                  <Button
+                    variant="danger"
+                    value={element.id}
+                    onClick={(e) => {
+                      deleteTripDetailsHandle(e);
+                    }}
+                  >
+                    Delete
+                  </Button>{" "}
+                </div>
               )}
-              
+
               <hr></hr>
             </div>
           ))}
@@ -172,8 +188,20 @@ const Trips = (props) => {
   } else {
     return (
       <div>
-        <h1 style={{ fontSize: "35px", textAlign: "center" }}>Car Pooling</h1>
-        <div id="carpooling-card">
+        <h1 style={{ fontSize: "35px", textAlign: "center" }}>All Trips</h1>
+        <div style={{  textAlign: "center" }} id="carpooling-card">
+        <Button
+            style={{
+              textAlign: "center",
+            }}
+            variant="success"
+            value={uuidv4()}
+            onClick={(e) => {
+              setUpdate(e.target.value);
+            }}
+          >
+            Refresh
+          </Button>
           <h3>No Group Found!</h3>
         </div>
       </div>

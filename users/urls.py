@@ -2,7 +2,7 @@ from django.urls import include, path
 
 from users.serializers import ShuttleSerializer
 
-from .views import   CarPoolingGroups, CustomUserDetailAPIView, CustomUserSettingsAPIView, DriverTripsAPIView, ShuttleAPIView, ShuttleDetailAPIView, TravellerTripsAPIView,  TripDetailAPIView, TripViewSet, UserBudgetAPIView, UserGroupAPIView, UserStarAPIView, UserViewSet
+from .views import   CarPoolingGroups, CustomUserDetailAPIView, CustomUserSettingsAPIView, DriverTripsAPIView, ShuttleAPIView, ShuttleDetailAPIView, ShuttleGroupAPIView, TravellerTripsAPIView,  TripDetailAPIView, TripViewSet, UserBudgetAPIView, UserGroupAPIView, UserStarAPIView, UserViewSet
 
 urlpatterns = [
     path('', UserViewSet.as_view()),
@@ -21,4 +21,5 @@ urlpatterns = [
     path('carpooling/',CarPoolingGroups.as_view(), name='change-trip-status1'),
     path('shuttles/',ShuttleAPIView.as_view(), name='change-trip-status1'),
     path('shuttle/<int:pk>',ShuttleDetailAPIView.as_view(), name='change-trip-status1'),
+    path('shuttleGroup/<int:pk>', ShuttleGroupAPIView.as_view()),
 ]
