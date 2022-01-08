@@ -107,3 +107,11 @@ class ShuttleUpdateAvaliableSeatSerializer(ModelSerializer):
     class Meta:
         model = Shuttle
         fields = ('pk','remaining_capacity')
+
+class UpdateShuttleRegistered(ModelSerializer):
+    """
+    User carpool group serializer
+    """
+    class Meta:
+        model = CustomUser
+        fields = ('pk','registeredShuttleId')
