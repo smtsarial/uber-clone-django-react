@@ -31,6 +31,14 @@ class UserViewSet(ListAPIView):
     serializer_class = UserDetailsSerializer
     # permission_classes = [IsAuthenticated]
 
+class TravellerUserViewSet(ListAPIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = CustomUser.objects.all().filter(is_driver=False)
+    serializer_class = UserDetailsSerializer
+    # permission_classes = [IsAuthenticated]
+
 class CustomUserDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UpdateUserLocation

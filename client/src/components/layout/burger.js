@@ -92,6 +92,20 @@ const BurgerMenu = (props) => {
 
   const tripCompletedHandle = (e) => {
     var a = travellerRequests.filter((x) => x.id === parseInt(e))[0];
+    console.log(a.travellerId);
+    var travellerPrevBudget = 0;
+
+    fetch(window.env.BACKEND_URL + "/api/v1/users/user-balance/" + a.driverId, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        travellerPrevBudget = data.balance
+      });
     if (a.status !== "COMPLETED") {
       fetch(
         window.env.BACKEND_URL + "/api/v1/users/change-trip-status/" + a.id,
@@ -126,6 +140,20 @@ const BurgerMenu = (props) => {
           body: JSON.stringify({
             pk: a.driverId,
             balance: parseFloat(preBudget) + parseFloat(a.price),
+          }),
+        }
+      );
+      fetch(
+        window.env.BACKEND_URL + "/api/v1/users/user-balance/" + a.travellerId,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            pk: a.travellerId,
+            balance: parseFloat(travellerPrevBudget) - parseFloat(a.price),
           }),
         }
       );
@@ -232,14 +260,14 @@ const BurgerMenu = (props) => {
       TripEndLat
     ).toFixed(2);
     setTripPrice(price);
-    
-    if(preBudget < price){
+
+    if (preBudget < price) {
       setCreatedAlert(
         <h5 style={{ color: "red", textAlign: "center" }}>
           No budget for this trip
         </h5>
-      )
-    }else{
+      );
+    } else {
       const trip = {
         startLong: TripStartLang,
         endLong: TripEndLong,
@@ -251,7 +279,7 @@ const BurgerMenu = (props) => {
         driverId: TripDriverId,
         travellerId: TripTravellerId,
       };
-  
+
       fetch(window.env.BACKEND_URL + "/api/v1/users/create-trip", {
         method: "POST",
         headers: {
@@ -387,7 +415,6 @@ const BurgerMenu = (props) => {
               >
                 Refresh
               </Button>
-
             </div>
             <div
               style={{
@@ -433,10 +460,11 @@ const BurgerMenu = (props) => {
                   />
                 </div>
               </label>
-
             </div>
-            <p>İstanbul Medipol University Coordinates :<br></br> 41.09101684961034, 29.092565035853283</p>
-
+            <p>
+              İstanbul Medipol University Coordinates :<br></br>{" "}
+              41.09101684961034, 29.092565035853283
+            </p>
           </span>
 
           {avaliableDrivers.map((element) => (

@@ -322,7 +322,7 @@ body {
 #carpooling-groups {
   background-color: grey;
   text-align: center;
-  width: 50%;
+  width: 90%;
   margin: auto;
   border-radius: 20px;
   border: 3px solid black;
@@ -330,4 +330,17 @@ body {
 
 .restriction{
   text-align: center;
+}
+
+#users {
+  z-index: 999999;
+  position: absolute;
+  background: rgba(0,0,0,0);
+  bottom: 30px;
+  left: 15px;
+}
+
+#coordinate-inputs-for- {
+  width: 185px;
+  padding-top: 10px;
 }
