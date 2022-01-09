@@ -187,7 +187,11 @@ const Shuttle = (props) => {
               value={element.id}
               variant="success"
               onClick={(e) => {
-                handleSubmit(e.target.value, element.remaining_capacity);
+                if(element.remaining_capacity == 0){
+                  alert("Shuttle is full please change your selection!")
+                }else{
+                  handleSubmit(e.target.value, element.remaining_capacity);
+                }
               }}
             >
               Take a Seat

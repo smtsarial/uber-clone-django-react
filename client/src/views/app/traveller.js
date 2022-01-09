@@ -103,7 +103,7 @@ export default class Traveller extends Component {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <Marker position={[this.state.lat, this.state.lng]}>
-            <Popup>Son Konum</Popup>
+            <Popup>Last Location</Popup>
           </Marker>
 
           {this.state.markers.length > 0 &&
