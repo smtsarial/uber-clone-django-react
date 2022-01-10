@@ -410,7 +410,7 @@ const BurgerMenu = (props) => {
                 variant="success"
                 value={uuidv4()}
                 onClick={(e) => {
-                  setClicked(e.target.value);
+                  setClicked(uuidv4());
                 }}
               >
                 Refresh
@@ -474,12 +474,11 @@ const BurgerMenu = (props) => {
               <h5>
                 Driver Name: {element.first_name} {element.last_name}
               </h5>
-              <h5>Car Type: {element.cartype}</h5>
+              <h5>Car Type: {element.car_type}</h5>
               <h5>HES Code: {element.hes_code}</h5>
               <h5>Driver Star: {element.star}</h5>
-
               <h5>Driver ID: {element.pk}</h5>
-              {element.car_type.length !== 0 ? (
+              {element.car_type.length !== 0? (
                 <Button
                   variant="success"
                   value={element.pk}

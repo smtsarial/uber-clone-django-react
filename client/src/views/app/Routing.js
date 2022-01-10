@@ -22,10 +22,10 @@ L.Marker.prototype.options.icon = L.icon({
           ],
           routeWhileDragging: true,
           lineOptions: {
-            styles: [{ color: "#6FA1EC", weight: 4 }]
+            styles: [{ color: "#6FA1EC", weight: 8 }]
           },
           show: true,
-          showAlternatives: true,
+          showAlternatives: false,
           addWaypoints: true, 
           fitSelectedRoutes: true,
         }).addTo(map);
