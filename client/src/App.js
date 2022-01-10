@@ -11,6 +11,8 @@ import CarPooling from "./views/app/carpooling";
 import Trips from './views/app/trips';
 import Restriction from './views/app/Restriction';
 import Shuttle from './views/app/Shuttle'
+import GenericNotFound from './views/app/GenericNotFound'
+
 const App = () => {
   return (
     <div className="App">
@@ -29,6 +31,8 @@ const App = () => {
           <Route path="/trips" component={Trips} exact />
           <Route path="/restriction" component={Restriction} exact />
           <Route path="/shuttles" component={Shuttle} exact />
+
+    <Route path='*' exact={true} component={GenericNotFound} />
         </Switch>
       </Router>
     </div>
