@@ -183,19 +183,36 @@ const Shuttle = (props) => {
             <h4>Remaining Capacity: {element.remaining_capacity} Seat</h4>
             <h4>Price: {element.price}</h4>
             <h4>Time: {element.start_time}</h4>
-            <Button
-              value={element.id}
-              variant="success"
-              onClick={(e) => {
-                if(element.remaining_capacity == 0){
-                  alert("Shuttle is full please change your selection!")
-                }else{
-                  handleSubmit(e.target.value, element.remaining_capacity);
-                }
-              }}
-            >
-              Take a Seat
-            </Button>{" "}
+            {element.remaining_capacity == 0 ? (
+              <Button
+                value={element.id}
+                variant="success"
+                onClick={(e) => {
+                  if (element.remaining_capacity == 0) {
+                    alert("Shuttle is full please change your selection!");
+                  } else {
+                    handleSubmit(e.target.value, element.remaining_capacity);
+                  }
+                }}
+                disabled={true}
+              >
+                Take a Seat
+              </Button>
+            ) : (
+              <Button
+                value={element.id}
+                variant="success"
+                onClick={(e) => {
+                  if (element.remaining_capacity == 0) {
+                    alert("Shuttle is full please change your selection!");
+                  } else {
+                    handleSubmit(e.target.value, element.remaining_capacity);
+                  }
+                }}
+              >
+                Take a Seat
+              </Button>
+            )}
             <hr></hr>
           </div>
         ))}

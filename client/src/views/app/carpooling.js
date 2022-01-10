@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
 
 const CarPooling = (props) => {
   const [groupList, setGroupList] = useState([]);
@@ -114,7 +115,7 @@ const CarPooling = (props) => {
         }),
       }
     );
-    setClicked("asasfasff");
+    setClicked(uuidv4());
   };
 
   return registeredGroup !== 0 ? (
@@ -147,7 +148,7 @@ const CarPooling = (props) => {
             <div key={element.id} id="carpooling-card">
               <h3>Group Name: {element.groupName}</h3>
               <h3>PPP: {element.ppp} TL</h3>
-              <h4>Whatsapp Link: {element.wplink}</h4>
+              <h4>Whatsapp Link: <a rel = "noopener noreferrer" href={element.wplink} target="_blank">{element.wplink}</a></h4>
               <h4>Start Time: {element.start_time}</h4>
             </div>
           ))}
@@ -232,7 +233,6 @@ const CarPooling = (props) => {
         {groupList.map((element) => (
           <div key={element.id} id="carpooling-card">
             <h3>Group Name: {element.groupName}</h3>
-            <h4>Whatsapp Link: {element.wplink}</h4>
             <h4>Start Time: {element.start_time}</h4>
             <h3>PPP: {element.ppp} TL</h3>
             <Button
