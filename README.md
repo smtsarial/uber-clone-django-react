@@ -111,6 +111,28 @@ reach their homes.
 
 ## 3. Figures UML diagrams
 ![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-001.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-002.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-003.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-004.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-005.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-006.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-007.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-008.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-009.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-010.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-011.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-012.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-013.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-014.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-015.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-016.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-017.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-018.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-019.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-020.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-021.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-022.png)
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-023.png)
 
 
 
