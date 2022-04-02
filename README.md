@@ -35,7 +35,7 @@ cloning the repository to get it up and running.
 
 ## Software Engineering
 
-## 1. Abstract......................................................................................................................
+## 1. Abstract
 
 Campus Driver is a system that allows students to commute quickly between
 university and their homes. The goal of this project is to eliminate some
@@ -58,7 +58,7 @@ regard. Passengers can use this app to select one of the available vehicles and
 complete their ride. This program addresses the problems that students face
 when using public transit and allows them to get to their destination faster.
 
-### 2.2. Goal of software............................................................................................
+### 2.2. Goal of software
 
 The goal of this project is to build a web application that allows users to quickly
 travel between campuses and their residences. Students can access vehicle
@@ -109,28 +109,9 @@ transportation between campuses and the students using the application can
 reach their homes.
 
 
-## 3. UML diagrams..........................................................................................................
+## 3. Figures UML diagrams
+![alt text](https://github.com/smtsarial/software_dash/blob/main/images/image-001.png)
 
-## 3.1. Use-case diagram..........................................................................................
-
-
-## 3.2. Architectural context diagram....................................................................
-
-
-## 3.3. Class diagram.................................................................................................
-
-
-## 3.4. Activity diagram.............................................................................................
-
-
-## 3.5. Sequence diagram........................................................................................
-
-
-
-## 3.6. State machine diagram...............................................................................
-
-
-## 4. Final UI Snapshots................................................................................................
 
 
 ## 5. Glossary of terms
